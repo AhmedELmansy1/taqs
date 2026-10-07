@@ -205,4 +205,65 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get splashLoading => 'جاري تهيئة طقس مصر...';
+
+  @override
+  String get openMeteoAttribution => 'بيانات الطقس مقدمة من Open-Meteo.com';
+
+  @override
+  String get selectLocation => 'اختيار الموقع';
+
+  @override
+  String get searchLocationHint => 'ابحث عن محافظة أو مدينة...';
+
+  @override
+  String get currentLocation => 'موقعي الحالي';
+
+  @override
+  String get useCurrentLocation => 'استخدام موقعي الحالي';
+
+  @override
+  String get egyptianGovernorates => 'محافظات مصر';
+
+  @override
+  String get savedLocations => 'المواقع المحفوظة';
+
+  @override
+  String get noSavedLocations => 'لا توجد مواقع محفوظة بعد';
+
+  @override
+  String get locationPermissionTitle => 'إذن تحديد الموقع';
+
+  @override
+  String get locationPermissionRationale =>
+      'يحتاج تطبيق طقس إذن الوصول إلى موقعك لعرض التوقعات الجوية الدقيقة لمكانك الحالي.';
+
+  @override
+  String get openSettings => 'فتح الإعدادات';
+
+  @override
+  String offlineDataBanner(String time) {
+    return 'بيانات محفوظة • آخر تحديث: $time';
+  }
+
+  @override
+  String get justNow => 'الآن';
+
+  @override
+  String minutesAgo(int minutes) {
+    return 'منذ $minutes دقيقة';
+  }
+
+  @override
+  String hoursAgo(int hours) {
+    return 'منذ $hours ساعة';
+  }
+
+  @override
+  String get windUnit => 'وحدة سرعة الرياح';
+
+  @override
+  String get windUnitKmh => 'كم/س (Kilometers per hour)';
+
+  @override
+  String get windUnitMs => 'م/ث (Meters per second)';
 }

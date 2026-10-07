@@ -207,4 +207,65 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get splashLoading => 'Initializing Taqs Egypt...';
+
+  @override
+  String get openMeteoAttribution => 'Weather data by Open-Meteo.com';
+
+  @override
+  String get selectLocation => 'Select Location';
+
+  @override
+  String get searchLocationHint => 'Search governorate or city...';
+
+  @override
+  String get currentLocation => 'Current Location';
+
+  @override
+  String get useCurrentLocation => 'Use Current Location';
+
+  @override
+  String get egyptianGovernorates => 'Egyptian Governorates';
+
+  @override
+  String get savedLocations => 'Saved Locations';
+
+  @override
+  String get noSavedLocations => 'No saved locations yet';
+
+  @override
+  String get locationPermissionTitle => 'Location Permission Required';
+
+  @override
+  String get locationPermissionRationale =>
+      'Taqs needs your location access to display accurate local weather forecasts.';
+
+  @override
+  String get openSettings => 'Open Settings';
+
+  @override
+  String offlineDataBanner(String time) {
+    return 'Offline data • Last updated: $time';
+  }
+
+  @override
+  String get justNow => 'Just now';
+
+  @override
+  String minutesAgo(int minutes) {
+    return '${minutes}m ago';
+  }
+
+  @override
+  String hoursAgo(int hours) {
+    return '${hours}h ago';
+  }
+
+  @override
+  String get windUnit => 'Wind Speed Unit';
+
+  @override
+  String get windUnitKmh => 'km/h (Kilometers per hour)';
+
+  @override
+  String get windUnitMs => 'm/s (Meters per second)';
 }

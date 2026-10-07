@@ -202,6 +202,45 @@ class SettingsScreen extends ConsumerWidget {
                   ],
                 ),
               ),
+              const SizedBox(height: AppSpacing.xl),
+
+              // --- Weather Data Attribution Section ---
+              SectionHeader(title: l10n.openMeteoAttribution),
+              const SizedBox(height: AppSpacing.xs),
+              AppCard(
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.cloud_sync_outlined,
+                      color: AppColors.cyanAccent,
+                      size: 22,
+                    ),
+                    const SizedBox(width: AppSpacing.md),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.openMeteoAttribution,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            'https://open-meteo.com',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: isDark
+                                  ? AppColors.darkTextSecondary
+                                  : AppColors.lightTextSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

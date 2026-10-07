@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:taqs/core/navigation/app_routes.dart';
 import 'package:taqs/core/navigation/scaffold_with_nav_bar.dart';
 import 'package:taqs/features/about/presentation/screens/about_developer_screen.dart';
+import 'package:taqs/features/location/presentation/screens/location_search_screen.dart';
 import 'package:taqs/features/settings/presentation/screens/settings_screen.dart';
 import 'package:taqs/features/splash/presentation/screens/splash_screen.dart';
 import 'package:taqs/features/weather/presentation/screens/home_screen.dart';
@@ -63,6 +64,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.about,
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const AboutDeveloperScreen(),
+      ),
+
+      // Location Search & Governorate Screen
+      GoRoute(
+        path: AppRoutes.locationSearch,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const LocationSearchScreen(),
       ),
     ],
   );

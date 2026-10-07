@@ -39,13 +39,26 @@ class AboutFooter extends StatelessWidget {
             future: PackageInfo.fromPlatform(),
             builder: (context, snapshot) {
               final version = snapshot.data?.version ?? '1.0.0';
-              return Text(
-                l10n.appVersion(version),
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: isDark
-                      ? AppColors.darkTextMuted
-                      : AppColors.lightTextMuted,
-                ),
+              return Column(
+                children: [
+                  Text(
+                    l10n.appVersion(version),
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: isDark
+                          ? AppColors.darkTextMuted
+                          : AppColors.lightTextMuted,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(
+                    l10n.openMeteoAttribution,
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: isDark
+                          ? AppColors.darkTextMuted
+                          : AppColors.lightTextMuted,
+                    ),
+                  ),
+                ],
               );
             },
           ),

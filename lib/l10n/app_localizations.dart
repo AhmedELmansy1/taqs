@@ -463,6 +463,114 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'جاري تهيئة طقس مصر...'**
   String get splashLoading;
+
+  /// حقوق مزود بيانات الطقس Open-Meteo
+  ///
+  /// In ar, this message translates to:
+  /// **'بيانات الطقس مقدمة من Open-Meteo.com'**
+  String get openMeteoAttribution;
+
+  /// عنوان شاشة اختيار الموقع
+  ///
+  /// In ar, this message translates to:
+  /// **'اختيار الموقع'**
+  String get selectLocation;
+
+  /// تلميح البحث عن المواقع
+  ///
+  /// In ar, this message translates to:
+  /// **'ابحث عن محافظة أو مدينة...'**
+  String get searchLocationHint;
+
+  /// تسمية الموقع الحالي بواسطة GPS
+  ///
+  /// In ar, this message translates to:
+  /// **'موقعي الحالي'**
+  String get currentLocation;
+
+  /// زر استخدام الموقع الحالي
+  ///
+  /// In ar, this message translates to:
+  /// **'استخدام موقعي الحالي'**
+  String get useCurrentLocation;
+
+  /// عنوان قائمة محافظات مصر
+  ///
+  /// In ar, this message translates to:
+  /// **'محافظات مصر'**
+  String get egyptianGovernorates;
+
+  /// عنوان قسم المواقع المحفوظة
+  ///
+  /// In ar, this message translates to:
+  /// **'المواقع المحفوظة'**
+  String get savedLocations;
+
+  /// رسالة عدم وجود مواقع محفوظة
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد مواقع محفوظة بعد'**
+  String get noSavedLocations;
+
+  /// عنوان طلب إذن الموقع
+  ///
+  /// In ar, this message translates to:
+  /// **'إذن تحديد الموقع'**
+  String get locationPermissionTitle;
+
+  /// شرح سبب طلب إذن الموقع
+  ///
+  /// In ar, this message translates to:
+  /// **'يحتاج تطبيق طقس إذن الوصول إلى موقعك لعرض التوقعات الجوية الدقيقة لمكانك الحالي.'**
+  String get locationPermissionRationale;
+
+  /// زر فتح إعدادات الهاتف
+  ///
+  /// In ar, this message translates to:
+  /// **'فتح الإعدادات'**
+  String get openSettings;
+
+  /// شريط التنبيه عند عرض بيانات من الذاكرة المؤقتة بدون إنترنت
+  ///
+  /// In ar, this message translates to:
+  /// **'بيانات محفوظة • آخر تحديث: {time}'**
+  String offlineDataBanner(String time);
+
+  /// وقت التحديث الآن
+  ///
+  /// In ar, this message translates to:
+  /// **'الآن'**
+  String get justNow;
+
+  /// مضى عدة دقائق
+  ///
+  /// In ar, this message translates to:
+  /// **'منذ {minutes} دقيقة'**
+  String minutesAgo(int minutes);
+
+  /// مضى عدة ساعات
+  ///
+  /// In ar, this message translates to:
+  /// **'منذ {hours} ساعة'**
+  String hoursAgo(int hours);
+
+  /// خيار وحدة سرعة الرياح
+  ///
+  /// In ar, this message translates to:
+  /// **'وحدة سرعة الرياح'**
+  String get windUnit;
+
+  /// وحدة كم/س
+  ///
+  /// In ar, this message translates to:
+  /// **'كم/س (Kilometers per hour)'**
+  String get windUnitKmh;
+
+  /// وحدة م/ث
+  ///
+  /// In ar, this message translates to:
+  /// **'م/ث (Meters per second)'**
+  String get windUnitMs;
 }
 
 class _AppLocalizationsDelegate

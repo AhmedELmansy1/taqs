@@ -4,4 +4,5 @@ abstract final class AppRoutes {
   static const String home = '/home';
   static const String settings = '/settings';
   static const String about = '/about';
+  static const String locationSearch = '/location-search';
 }

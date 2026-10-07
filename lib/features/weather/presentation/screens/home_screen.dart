@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:taqs/core/constants/app_constants.dart';
 import 'package:taqs/core/design/components/error_state.dart';
 import 'package:taqs/core/design/components/loading_state.dart';
 import 'package:taqs/core/design/components/section_header.dart';
+import 'package:taqs/core/design/tokens/app_colors.dart';
 import 'package:taqs/core/design/tokens/app_spacing.dart';
+import 'package:taqs/core/errors/error_localizer.dart';
+import 'package:taqs/core/navigation/app_routes.dart';
 import 'package:taqs/features/weather/presentation/providers/weather_provider.dart';
 import 'package:taqs/features/weather/presentation/widgets/current_weather_card.dart';
 import 'package:taqs/features/weather/presentation/widgets/daily_forecast_list.dart';
 import 'package:taqs/features/weather/presentation/widgets/hourly_forecast_strip.dart';
+import 'package:taqs/features/weather/presentation/widgets/offline_data_banner.dart';
 import 'package:taqs/l10n/app_localizations.dart';
 
-/// Home screen containing the weather skeleton layout.
+/// Home screen containing real weather data, location switcher and offline cached status.
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -28,11 +33,21 @@ class HomeScreen extends ConsumerWidget {
           isArabic ? AppConstants.appNameAr : AppConstants.appNameEn,
           style: const TextStyle(fontWeight: FontWeight.w800),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.location_on_outlined,
+              color: AppColors.cyanAccent,
+            ),
+            tooltip: l10n.selectLocation,
+            onPressed: () => context.push(AppRoutes.locationSearch),
+          ),
+        ],
       ),
       body: weatherState.when(
         loading: () => const LoadingState(),
         error: (error, _) => ErrorState(
-          message: l10n.errorStateMessage,
+          message: ErrorLocalizer.localize(context, error),
           retryLabel: l10n.retry,
           onRetry: () => ref.read(weatherViewModelProvider.notifier).refresh(),
         ),
@@ -51,10 +66,19 @@ class HomeScreen extends ConsumerWidget {
                   vertical: AppSpacing.md,
                 ),
                 children: [
+                  // Offline Stale Banner if data is served from local cache
+                  if (bundle.isFromCache)
+                    OfflineDataBanner(
+                      fetchedAt: bundle.fetchedAt,
+                      onRefresh: () =>
+                          ref.read(weatherViewModelProvider.notifier).refresh(),
+                    ),
+
                   // Current Temperature Card
                   CurrentWeatherCard(
                     weather: bundle.current,
                     isArabic: isArabic,
+                    onLocationTap: () => context.push(AppRoutes.locationSearch),
                   ),
                   const SizedBox(height: AppSpacing.xl),
 

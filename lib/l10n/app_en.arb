@@ -268,5 +268,92 @@
   "splashLoading": "Initializing Taqs Egypt...",
   "@splashLoading": {
     "description": "Splash loading text"
+  },
+  "openMeteoAttribution": "Weather data by Open-Meteo.com",
+  "@openMeteoAttribution": {
+    "description": "Open-Meteo weather data attribution"
+  },
+  "selectLocation": "Select Location",
+  "@selectLocation": {
+    "description": "Location selection screen title"
+  },
+  "searchLocationHint": "Search governorate or city...",
+  "@searchLocationHint": {
+    "description": "Location search field hint"
+  },
+  "currentLocation": "Current Location",
+  "@currentLocation": {
+    "description": "Current GPS location label"
+  },
+  "useCurrentLocation": "Use Current Location",
+  "@useCurrentLocation": {
+    "description": "Button to activate device GPS location"
+  },
+  "egyptianGovernorates": "Egyptian Governorates",
+  "@egyptianGovernorates": {
+    "description": "Governorates quick pick section title"
+  },
+  "savedLocations": "Saved Locations",
+  "@savedLocations": {
+    "description": "Saved locations section title"
+  },
+  "noSavedLocations": "No saved locations yet",
+  "@noSavedLocations": {
+    "description": "Empty state for saved locations"
+  },
+  "locationPermissionTitle": "Location Permission Required",
+  "@locationPermissionTitle": {
+    "description": "Location permission request title"
+  },
+  "locationPermissionRationale": "Taqs needs your location access to display accurate local weather forecasts.",
+  "@locationPermissionRationale": {
+    "description": "Location permission explanation"
+  },
+  "openSettings": "Open Settings",
+  "@openSettings": {
+    "description": "Button to open device settings"
+  },
+  "offlineDataBanner": "Offline data • Last updated: {time}",
+  "@offlineDataBanner": {
+    "description": "Banner shown when displaying cached weather data offline",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "justNow": "Just now",
+  "@justNow": {
+    "description": "Updated just now"
+  },
+  "minutesAgo": "{minutes}m ago",
+  "@minutesAgo": {
+    "description": "Minutes ago",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursAgo": "{hours}h ago",
+  "@hoursAgo": {
+    "description": "Hours ago",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "windUnit": "Wind Speed Unit",
+  "@windUnit": {
+    "description": "Wind speed unit setting title"
+  },
+  "windUnitKmh": "km/h (Kilometers per hour)",
+  "@windUnitKmh": {
+    "description": "km/h option"
+  },
+  "windUnitMs": "m/s (Meters per second)",
+  "@windUnitMs": {
+    "description": "m/s option"
   }
 }

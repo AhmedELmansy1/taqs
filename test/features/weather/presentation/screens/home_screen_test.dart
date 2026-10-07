@@ -20,7 +20,7 @@ void main() {
       expect(find.byType(DailyForecastList), findsOneWidget);
 
       // Check temperature and location
-      expect(find.text('القاهرة، مصر'), findsOneWidget);
+      expect(find.text('القاهرة'), findsOneWidget);
       expect(find.text('29'), findsOneWidget);
     });
   });

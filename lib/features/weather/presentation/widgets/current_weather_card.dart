@@ -12,11 +12,13 @@ class CurrentWeatherCard extends StatelessWidget {
   const CurrentWeatherCard({
     required this.weather,
     required this.isArabic,
+    this.onLocationTap,
     super.key,
   });
 
   final CurrentWeather weather;
   final bool isArabic;
+  final VoidCallback? onLocationTap;
 
   @override
   Widget build(BuildContext context) {
@@ -46,24 +48,42 @@ class CurrentWeatherCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  const Icon(
-                    Icons.location_on_rounded,
-                    size: 18,
-                    color: AppColors.cyanAccent,
+              InkWell(
+                onTap: onLocationTap,
+                borderRadius: AppRadius.borderSm,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: AppSpacing.xs,
+                    horizontal: AppSpacing.xs,
                   ),
-                  const SizedBox(width: AppSpacing.xs),
-                  Text(
-                    cityName,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: isDark
-                          ? AppColors.darkTextPrimary
-                          : AppColors.lightTextPrimary,
-                    ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.location_on_rounded,
+                        size: 18,
+                        color: AppColors.cyanAccent,
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
+                      Text(
+                        cityName,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.lightTextPrimary,
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
+                      Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        size: 18,
+                        color: isDark
+                            ? AppColors.darkTextSecondary
+                            : AppColors.lightTextSecondary,
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(

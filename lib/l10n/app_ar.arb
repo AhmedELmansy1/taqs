@@ -268,5 +268,92 @@
   "splashLoading": "جاري تهيئة طقس مصر...",
   "@splashLoading": {
     "description": "نص تحميل شاشة البداية"
+  },
+  "openMeteoAttribution": "بيانات الطقس مقدمة من Open-Meteo.com",
+  "@openMeteoAttribution": {
+    "description": "حقوق مزود بيانات الطقس Open-Meteo"
+  },
+  "selectLocation": "اختيار الموقع",
+  "@selectLocation": {
+    "description": "عنوان شاشة اختيار الموقع"
+  },
+  "searchLocationHint": "ابحث عن محافظة أو مدينة...",
+  "@searchLocationHint": {
+    "description": "تلميح البحث عن المواقع"
+  },
+  "currentLocation": "موقعي الحالي",
+  "@currentLocation": {
+    "description": "تسمية الموقع الحالي بواسطة GPS"
+  },
+  "useCurrentLocation": "استخدام موقعي الحالي",
+  "@useCurrentLocation": {
+    "description": "زر استخدام الموقع الحالي"
+  },
+  "egyptianGovernorates": "محافظات مصر",
+  "@egyptianGovernorates": {
+    "description": "عنوان قائمة محافظات مصر"
+  },
+  "savedLocations": "المواقع المحفوظة",
+  "@savedLocations": {
+    "description": "عنوان قسم المواقع المحفوظة"
+  },
+  "noSavedLocations": "لا توجد مواقع محفوظة بعد",
+  "@noSavedLocations": {
+    "description": "رسالة عدم وجود مواقع محفوظة"
+  },
+  "locationPermissionTitle": "إذن تحديد الموقع",
+  "@locationPermissionTitle": {
+    "description": "عنوان طلب إذن الموقع"
+  },
+  "locationPermissionRationale": "يحتاج تطبيق طقس إذن الوصول إلى موقعك لعرض التوقعات الجوية الدقيقة لمكانك الحالي.",
+  "@locationPermissionRationale": {
+    "description": "شرح سبب طلب إذن الموقع"
+  },
+  "openSettings": "فتح الإعدادات",
+  "@openSettings": {
+    "description": "زر فتح إعدادات الهاتف"
+  },
+  "offlineDataBanner": "بيانات محفوظة • آخر تحديث: {time}",
+  "@offlineDataBanner": {
+    "description": "شريط التنبيه عند عرض بيانات من الذاكرة المؤقتة بدون إنترنت",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "justNow": "الآن",
+  "@justNow": {
+    "description": "وقت التحديث الآن"
+  },
+  "minutesAgo": "منذ {minutes} دقيقة",
+  "@minutesAgo": {
+    "description": "مضى عدة دقائق",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursAgo": "منذ {hours} ساعة",
+  "@hoursAgo": {
+    "description": "مضى عدة ساعات",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "windUnit": "وحدة سرعة الرياح",
+  "@windUnit": {
+    "description": "خيار وحدة سرعة الرياح"
+  },
+  "windUnitKmh": "كم/س (Kilometers per hour)",
+  "@windUnitKmh": {
+    "description": "وحدة كم/س"
+  },
+  "windUnitMs": "م/ث (Meters per second)",
+  "@windUnitMs": {
+    "description": "وحدة م/ث"
   }
 }
