@@ -9,5 +9,8 @@ abstract interface class WeatherRepository {
   Future<WeatherBundle> getWeatherForLocation({
     required double latitude,
     required double longitude,
+    String? cityNameAr,
+    String? cityNameEn,
+    bool forceRefresh = false,
   });
 }
