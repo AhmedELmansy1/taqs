@@ -1,0 +1,272 @@
+{
+  "@@locale": "ar",
+  "appName": "طقس",
+  "@appName": {
+    "description": "اسم التطبيق"
+  },
+  "appTagline": "تطبيق الطقس الذكي لجمهورية مصر العربية",
+  "@appTagline": {
+    "description": "الوصف المختصر للتطبيق"
+  },
+  "navHome": "الرئيسية",
+  "@navHome": {
+    "description": "عنوان تبويب الرئيسية"
+  },
+  "navSettings": "الإعدادات",
+  "@navSettings": {
+    "description": "عنوان تبويب الإعدادات"
+  },
+  "homeTitle": "طقس اليوم",
+  "@homeTitle": {
+    "description": "عنوان الصفحة الرئيسية"
+  },
+  "defaultCity": "القاهرة، مصر",
+  "@defaultCity": {
+    "description": "المدينة الافتراضية للطقس"
+  },
+  "feelsLike": "الشعور الفعلي {temp}°",
+  "@feelsLike": {
+    "description": "درجة الحرارة المحسوسة",
+    "placeholders": {
+      "temp": {
+        "type": "int"
+      }
+    }
+  },
+  "humidity": "الرطوبة",
+  "@humidity": {
+    "description": "تسمية نسبة الرطوبة"
+  },
+  "windSpeed": "سرعة الرياح",
+  "@windSpeed": {
+    "description": "تسمية سرعة الرياح"
+  },
+  "windSpeedUnit": "{speed} كم/س",
+  "@windSpeedUnit": {
+    "description": "قيمة سرعة الرياح بوحدة كم/س",
+    "placeholders": {
+      "speed": {
+        "type": "int"
+      }
+    }
+  },
+  "uvIndex": "مؤشر الأشعة فوق البنفسجية",
+  "@uvIndex": {
+    "description": "مؤشر الأشعة فوق البنفسجية"
+  },
+  "airQuality": "جودة الهواء",
+  "@airQuality": {
+    "description": "تسمية جودة الهواء"
+  },
+  "airQualityGood": "جيدة",
+  "@airQualityGood": {
+    "description": "حالة جودة الهواء جيدة"
+  },
+  "hourlyForecastTitle": "التوقعات بالساعات",
+  "@hourlyForecastTitle": {
+    "description": "عنوان قسم التوقعات الساعية"
+  },
+  "weeklyForecastTitle": "توقعات 7 أيام",
+  "@weeklyForecastTitle": {
+    "description": "عنوان قسم التوقعات الأسبوعية"
+  },
+  "conditionSunny": "مشمس",
+  "@conditionSunny": {
+    "description": "حالة الطقس: مشمس"
+  },
+  "conditionPartlyCloudy": "غائم جزئياً",
+  "@conditionPartlyCloudy": {
+    "description": "حالة الطقس: غائم جزئياً"
+  },
+  "conditionCloudy": "غائم",
+  "@conditionCloudy": {
+    "description": "حالة الطقس: غائم"
+  },
+  "conditionRainy": "ممطر",
+  "@conditionRainy": {
+    "description": "حالة الطقس: ممطر"
+  },
+  "conditionDustStorm": "عاصفة ترابية",
+  "@conditionDustStorm": {
+    "description": "حالة الطقس: عاصفة ترابية"
+  },
+  "conditionFog": "ضباب",
+  "@conditionFog": {
+    "description": "حالة الطقس: ضباب"
+  },
+  "settingsTitle": "الإعدادات",
+  "@settingsTitle": {
+    "description": "عنوان صفحة الإعدادات"
+  },
+  "appearanceSection": "المظهر والعرض",
+  "@appearanceSection": {
+    "description": "قسم إعدادات المظهر"
+  },
+  "themeMode": "نمط السمة",
+  "@themeMode": {
+    "description": "خيار نمط السمة"
+  },
+  "themeSystem": "تلقائي (حسب النظام)",
+  "@themeSystem": {
+    "description": "نمط النظام التلقائي"
+  },
+  "themeLight": "الوضع الفاتح",
+  "@themeLight": {
+    "description": "الوضع النهاري الفاتح"
+  },
+  "themeDark": "الوضع الليلي (الداكن)",
+  "@themeDark": {
+    "description": "الوضع الليلي الداكن"
+  },
+  "languageSection": "اللغة والمنطقة",
+  "@languageSection": {
+    "description": "قسم خيارات اللغة"
+  },
+  "language": "لغة التطبيق",
+  "@language": {
+    "description": "خيار لغة التطبيق"
+  },
+  "languageArabic": "العربية (Arabic)",
+  "@languageArabic": {
+    "description": "اللغة العربية"
+  },
+  "languageEnglish": "الإنجليزية (English)",
+  "@languageEnglish": {
+    "description": "اللغة الإنجليزية"
+  },
+  "aboutSection": "عن التطبيق",
+  "@aboutSection": {
+    "description": "قسم المعلومات عن التطبيق"
+  },
+  "aboutDeveloper": "عن المطور",
+  "@aboutDeveloper": {
+    "description": "زر الانتقال لصفحة المطور"
+  },
+  "aboutDeveloperSubtitle": "أحمد المنسي • نبذة وتفاصيل التواصل",
+  "@aboutDeveloperSubtitle": {
+    "description": "وصف فرعي لصفحة المطور"
+  },
+  "developerName": "أحمد المنسي",
+  "@developerName": {
+    "description": "اسم مطور التطبيق"
+  },
+  "developerTitle": "مطور تطبيقات فلاتر • أمن سيبراني • ذكاء اصطناعي",
+  "@developerTitle": {
+    "description": "المسمى المهني للمطور"
+  },
+  "developerLocation": "الشرقية، مصر",
+  "@developerLocation": {
+    "description": "موقع المطور"
+  },
+  "developerSummary": "مطور تطبيقات فلاتر، وشغوف بالذكاء الاصطناعي والأمن السيبراني، خريج علوم الحاسب.",
+  "@developerSummary": {
+    "description": "ملخص السيرة الذاتية للمطور"
+  },
+  "educationSectionTitle": "التعليم والشهادات",
+  "@educationSectionTitle": {
+    "description": "عنوان قسم التعليم"
+  },
+  "educationDegree": "بكالوريوس الحاسبات والمعلومات، جامعة بنها",
+  "@educationDegree": {
+    "description": "المؤهل الجامعي"
+  },
+  "educationSpecialization": "التخصص: أمن المعلومات والأدلة الجنائية الرقمية (تقدير: جيد جداً)",
+  "@educationSpecialization": {
+    "description": "تخصص الكلية والتقدير"
+  },
+  "educationGraduationProject": "مشروع التخرج: كشف التزييف الرقمي (كشف تزييف الصور والصوتيات بالذكاء الاصطناعي) — امتياز",
+  "@educationGraduationProject": {
+    "description": "مشروع التخرج وتقديره"
+  },
+  "skillsSectionTitle": "المهارات والتقنيات",
+  "@skillsSectionTitle": {
+    "description": "عنوان قسم المهارات"
+  },
+  "projectsSectionTitle": "المشاريع",
+  "@projectsSectionTitle": {
+    "description": "عنوان قسم المشاريع"
+  },
+  "contactSectionTitle": "معلومات التواصل",
+  "@contactSectionTitle": {
+    "description": "عنوان قسم التواصل"
+  },
+  "email": "البريد الإلكتروني",
+  "@email": {
+    "description": "تسمية البريد الإلكتروني"
+  },
+  "phone": "الهاتف",
+  "@phone": {
+    "description": "تسمية رقم الهاتف"
+  },
+  "github": "حساب GitHub",
+  "@github": {
+    "description": "تسمية حساب جيت هب"
+  },
+  "linkedin": "حساب LinkedIn",
+  "@linkedin": {
+    "description": "تسمية حساب لينكد إن"
+  },
+  "sendEmail": "إرسال رسالة",
+  "@sendEmail": {
+    "description": "إجراء إرسال بريد"
+  },
+  "callPhone": "اتصال هاتفي",
+  "@callPhone": {
+    "description": "إجراء الاتصال الهاتفي"
+  },
+  "openGitHub": "زيارة البروفايل",
+  "@openGitHub": {
+    "description": "إجراء فتح جيت هب"
+  },
+  "openLinkedIn": "زيارة البروفايل",
+  "@openLinkedIn": {
+    "description": "إجراء فتح لينكد إن"
+  },
+  "cannotLaunchUrl": "تعذر فتح الرابط المطلوب: {target}",
+  "@cannotLaunchUrl": {
+    "description": "رسالة خطأ عند فشل فتح رابط",
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "copiedToClipboard": "تم النسخ بنجاح: {text}",
+  "@copiedToClipboard": {
+    "description": "رسالة النسخ للحافظة",
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "builtWithFlutter": "صُنع بكل فخر باستخدام Flutter",
+  "@builtWithFlutter": {
+    "description": "عبارة الفوتر"
+  },
+  "appVersion": "الإصدار {version}",
+  "@appVersion": {
+    "description": "عرض رقم إصدار التطبيق",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "retry": "إعادة المحاولة",
+  "@retry": {
+    "description": "زر إعادة المحاولة"
+  },
+  "emptyStateMessage": "لا توجد بيانات متاحة حالياً",
+  "@emptyStateMessage": {
+    "description": "رسالة الحالة الفارغة"
+  },
+  "errorStateMessage": "حدث خطأ غير متوقع أثناء تحميل البيانات",
+  "@errorStateMessage": {
+    "description": "رسالة حالة الخطأ"
+  },
+  "splashLoading": "جاري تهيئة طقس مصر...",
+  "@splashLoading": {
+    "description": "نص تحميل شاشة البداية"
+  }
+}

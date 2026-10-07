@@ -1,0 +1,272 @@
+{
+  "@@locale": "en",
+  "appName": "Taqs",
+  "@appName": {
+    "description": "App Name"
+  },
+  "appTagline": "Smart Weather Application for Egypt",
+  "@appTagline": {
+    "description": "Short application description tagline"
+  },
+  "navHome": "Home",
+  "@navHome": {
+    "description": "Home bottom navigation label"
+  },
+  "navSettings": "Settings",
+  "@navSettings": {
+    "description": "Settings bottom navigation label"
+  },
+  "homeTitle": "Today's Weather",
+  "@homeTitle": {
+    "description": "Home screen title"
+  },
+  "defaultCity": "Cairo, Egypt",
+  "@defaultCity": {
+    "description": "Default weather location"
+  },
+  "feelsLike": "Feels like {temp}°",
+  "@feelsLike": {
+    "description": "Perceived temperature",
+    "placeholders": {
+      "temp": {
+        "type": "int"
+      }
+    }
+  },
+  "humidity": "Humidity",
+  "@humidity": {
+    "description": "Humidity label"
+  },
+  "windSpeed": "Wind Speed",
+  "@windSpeed": {
+    "description": "Wind speed label"
+  },
+  "windSpeedUnit": "{speed} km/h",
+  "@windSpeedUnit": {
+    "description": "Wind speed in km/h",
+    "placeholders": {
+      "speed": {
+        "type": "int"
+      }
+    }
+  },
+  "uvIndex": "UV Index",
+  "@uvIndex": {
+    "description": "UV Index label"
+  },
+  "airQuality": "Air Quality",
+  "@airQuality": {
+    "description": "Air quality label"
+  },
+  "airQualityGood": "Good",
+  "@airQualityGood": {
+    "description": "Air quality good status"
+  },
+  "hourlyForecastTitle": "Hourly Forecast",
+  "@hourlyForecastTitle": {
+    "description": "Hourly forecast section title"
+  },
+  "weeklyForecastTitle": "7-Day Forecast",
+  "@weeklyForecastTitle": {
+    "description": "Weekly forecast section title"
+  },
+  "conditionSunny": "Sunny",
+  "@conditionSunny": {
+    "description": "Weather condition: sunny"
+  },
+  "conditionPartlyCloudy": "Partly Cloudy",
+  "@conditionPartlyCloudy": {
+    "description": "Weather condition: partly cloudy"
+  },
+  "conditionCloudy": "Cloudy",
+  "@conditionCloudy": {
+    "description": "Weather condition: cloudy"
+  },
+  "conditionRainy": "Rainy",
+  "@conditionRainy": {
+    "description": "Weather condition: rainy"
+  },
+  "conditionDustStorm": "Dust Storm",
+  "@conditionDustStorm": {
+    "description": "Weather condition: dust storm"
+  },
+  "conditionFog": "Fog",
+  "@conditionFog": {
+    "description": "Weather condition: fog"
+  },
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "Settings screen title"
+  },
+  "appearanceSection": "Appearance & Display",
+  "@appearanceSection": {
+    "description": "Appearance section header"
+  },
+  "themeMode": "Theme Mode",
+  "@themeMode": {
+    "description": "Theme mode option"
+  },
+  "themeSystem": "System Default",
+  "@themeSystem": {
+    "description": "System theme option"
+  },
+  "themeLight": "Light Mode",
+  "@themeLight": {
+    "description": "Light theme option"
+  },
+  "themeDark": "Dark Mode",
+  "@themeDark": {
+    "description": "Dark theme option"
+  },
+  "languageSection": "Language & Region",
+  "@languageSection": {
+    "description": "Language section header"
+  },
+  "language": "App Language",
+  "@language": {
+    "description": "Language selector"
+  },
+  "languageArabic": "العربية (Arabic)",
+  "@languageArabic": {
+    "description": "Arabic language name"
+  },
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "English language name"
+  },
+  "aboutSection": "About App",
+  "@aboutSection": {
+    "description": "About section header"
+  },
+  "aboutDeveloper": "About the Developer",
+  "@aboutDeveloper": {
+    "description": "About developer navigation tile"
+  },
+  "aboutDeveloperSubtitle": "Ahmed Elmansy • Profile & Contact Details",
+  "@aboutDeveloperSubtitle": {
+    "description": "About developer subtitle"
+  },
+  "developerName": "Ahmed Elmansy",
+  "@developerName": {
+    "description": "Developer full name"
+  },
+  "developerTitle": "Flutter Developer • Cybersecurity • AI",
+  "@developerTitle": {
+    "description": "Professional title"
+  },
+  "developerLocation": "Sharqia, Egypt",
+  "@developerLocation": {
+    "description": "Developer location"
+  },
+  "developerSummary": "Flutter Developer, AI & Cybersecurity enthusiast, Computer Science graduate.",
+  "@developerSummary": {
+    "description": "Developer biography summary"
+  },
+  "educationSectionTitle": "Education & Degrees",
+  "@educationSectionTitle": {
+    "description": "Education section title"
+  },
+  "educationDegree": "Bachelor's in Computer Science and Information, Benha University",
+  "@educationDegree": {
+    "description": "Bachelor degree"
+  },
+  "educationSpecialization": "Specialization: Information Security & Digital Forensics (Grade: Very Good)",
+  "@educationSpecialization": {
+    "description": "University major and grade"
+  },
+  "educationGraduationProject": "Graduation Project: Forgery Detection (AI-powered image/audio forgery detection) — Excellent",
+  "@educationGraduationProject": {
+    "description": "Graduation project title and grade"
+  },
+  "skillsSectionTitle": "Skills & Technologies",
+  "@skillsSectionTitle": {
+    "description": "Skills section title"
+  },
+  "projectsSectionTitle": "Projects",
+  "@projectsSectionTitle": {
+    "description": "Projects section title"
+  },
+  "contactSectionTitle": "Contact Information",
+  "@contactSectionTitle": {
+    "description": "Contact section title"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Email address label"
+  },
+  "phone": "Phone",
+  "@phone": {
+    "description": "Phone number label"
+  },
+  "github": "GitHub Profile",
+  "@github": {
+    "description": "GitHub label"
+  },
+  "linkedin": "LinkedIn Profile",
+  "@linkedin": {
+    "description": "LinkedIn label"
+  },
+  "sendEmail": "Send Email",
+  "@sendEmail": {
+    "description": "Email action label"
+  },
+  "callPhone": "Call",
+  "@callPhone": {
+    "description": "Call action label"
+  },
+  "openGitHub": "Open Profile",
+  "@openGitHub": {
+    "description": "GitHub action label"
+  },
+  "openLinkedIn": "Open Profile",
+  "@openLinkedIn": {
+    "description": "LinkedIn action label"
+  },
+  "cannotLaunchUrl": "Could not launch link: {target}",
+  "@cannotLaunchUrl": {
+    "description": "Error message when launching a URL fails",
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "copiedToClipboard": "Copied to clipboard: {text}",
+  "@copiedToClipboard": {
+    "description": "Snackbar message when text copied",
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "builtWithFlutter": "Built with Flutter",
+  "@builtWithFlutter": {
+    "description": "Footer note"
+  },
+  "appVersion": "Version {version}",
+  "@appVersion": {
+    "description": "Version display string",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button label"
+  },
+  "emptyStateMessage": "No data available at the moment",
+  "@emptyStateMessage": {
+    "description": "Empty state description"
+  },
+  "errorStateMessage": "An unexpected error occurred while loading data",
+  "@errorStateMessage": {
+    "description": "Error state description"
+  },
+  "splashLoading": "Initializing Taqs Egypt...",
+  "@splashLoading": {
+    "description": "Splash loading text"
+  }
+}
