@@ -1,0 +1,23 @@
+include: package:very_good_analysis/analysis_options.yaml
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.drift.dart"
+    - lib/src/gen/**
+    - lib/l10n/**
+    - build/**
+    - android/**
+    - ios/**
+  errors:
+    invalid_annotation_target: ignore
+
+linter:
+  rules:
+    # Public member docs are not required for internal app widgets
+    public_member_api_docs: false
+    # Modern wide displays and nested Flutter widget trees benefit from reasonable line length
+    lines_longer_than_80_chars: false
+    # Retain standard named constructor syntax for clarity
+    unnecessary_type_name_in_constructor: false
