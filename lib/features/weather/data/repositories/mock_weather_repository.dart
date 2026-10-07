@@ -11,22 +11,25 @@ final class MockWeatherRepository implements WeatherRepository {
   Future<WeatherBundle> getWeatherForLocation({
     required double latitude,
     required double longitude,
+    String? cityNameAr,
+    String? cityNameEn,
+    bool forceRefresh = false,
   }) async {
     // Simulate brief network latency for realistic state observation
     await Future<void>.delayed(const Duration(milliseconds: 150));
 
-    return const WeatherBundle(
+    return WeatherBundle(
       current: CurrentWeather(
         temperature: 29,
         feelsLike: 31,
-        cityNameAr: AppConstants.defaultCityNameAr,
-        cityNameEn: AppConstants.defaultCityNameEn,
+        cityNameAr: cityNameAr ?? AppConstants.defaultCityNameAr,
+        cityNameEn: cityNameEn ?? AppConstants.defaultCityNameEn,
         condition: WeatherCondition.sunny,
         humidityPercentage: 42,
         windSpeedKmh: 16,
         uvIndex: 7,
       ),
-      hourly: [
+      hourly: const [
         HourlyForecast(
           time: '12:00',
           temperature: 28,
@@ -73,7 +76,7 @@ final class MockWeatherRepository implements WeatherRepository {
           condition: WeatherCondition.sunny,
         ),
       ],
-      daily: [
+      daily: const [
         DailyForecast(
           dayNameAr: 'اليوم',
           dayNameEn: 'Today',
