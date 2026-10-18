@@ -18,7 +18,12 @@ import 'package:taqs/features/advisor/presentation/widgets/what_to_wear_card.dar
 import 'package:taqs/features/air_quality/presentation/widgets/air_quality_card.dart';
 import 'package:taqs/features/alerts/domain/services/egypt_alert_evaluator.dart';
 import 'package:taqs/features/alerts/presentation/widgets/severe_weather_alert_card.dart';
+import 'package:taqs/features/driving/presentation/widgets/driving_safety_card.dart';
+import 'package:taqs/features/farming/presentation/widgets/farming_card.dart';
+import 'package:taqs/features/marine/presentation/providers/marine_provider.dart';
+import 'package:taqs/features/marine/presentation/widgets/marine_condition_card.dart';
 import 'package:taqs/features/prayer/presentation/screens/prayer_section_view.dart';
+import 'package:taqs/features/weather/presentation/controllers/farmer_mode_controller.dart';
 import 'package:taqs/features/weather/presentation/controllers/home_tab_controller.dart';
 import 'package:taqs/features/weather/presentation/providers/weather_provider.dart';
 import 'package:taqs/features/weather/presentation/widgets/current_weather_card.dart';
@@ -54,6 +59,8 @@ class HomeScreen extends ConsumerWidget {
     final isArabic = locale.languageCode == 'ar';
     final weatherState = ref.watch(weatherViewModelProvider);
     final selectedTab = ref.watch(homeTabControllerProvider);
+    final marineAsync = ref.watch(marineConditionsProvider);
+    final isFarmerMode = ref.watch(farmerModeControllerProvider);
 
     return weatherState.when(
       loading: () => Scaffold(
@@ -204,6 +211,31 @@ class HomeScreen extends ConsumerWidget {
                                     context.push(AppRoutes.locationSearch),
                               ),
                               const SizedBox(height: AppSpacing.lg),
+
+                              // 2. Road Driving Safety Card
+                              DrivingSafetyCard(
+                                weather: bundle.current,
+                                isArabic: isArabic,
+                              ),
+                              const SizedBox(height: AppSpacing.lg),
+
+                              // 3. Coastal Marine Conditions (shown ONLY when data available)
+                              if (marineAsync.value != null) ...[
+                                MarineConditionCard(
+                                  marine: marineAsync.value!,
+                                  isArabic: isArabic,
+                                ),
+                                const SizedBox(height: AppSpacing.lg),
+                              ],
+
+                              // 4. Agricultural Farmer Mode (if enabled in settings)
+                              if (isFarmerMode) ...[
+                                FarmingCard(
+                                  bundle: bundle,
+                                  isArabic: isArabic,
+                                ),
+                                const SizedBox(height: AppSpacing.lg),
+                              ],
 
                               // 2. Smart Outfit Recommendation Card
                               WhatToWearCard(

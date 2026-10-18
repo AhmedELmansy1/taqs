@@ -162,27 +162,63 @@ abstract final class EgyptianGovernorates {
     longitude: 27.2373,
   );
 
-  /// All verified quick-pick Egyptian governorates.
+  static const LocationItem northCoast = LocationItem(
+    id: 'gov_north_coast',
+    nameAr: 'الساحل الشمالي (العلمين)',
+    nameEn: 'North Coast (Alamein)',
+    latitude: 30.8333,
+    longitude: 28.9500,
+  );
+
+  static const LocationItem hurghada = LocationItem(
+    id: 'gov_hurghada',
+    nameAr: 'الغردقة',
+    nameEn: 'Hurghada',
+    latitude: 27.2579,
+    longitude: 33.8116,
+  );
+
+  static const LocationItem sharmElSheikh = LocationItem(
+    id: 'gov_sharm',
+    nameAr: 'شرم الشيخ',
+    nameEn: 'Sharm El Sheikh',
+    latitude: 27.9158,
+    longitude: 34.3299,
+  );
+
+  static const LocationItem dahab = LocationItem(
+    id: 'gov_dahab',
+    nameAr: 'دهب',
+    nameEn: 'Dahab',
+    latitude: 28.5097,
+    longitude: 34.5136,
+  );
+
+  /// All verified quick-pick Egyptian governorates and coastal locations.
   static const List<LocationItem> all = [
     cairo,
     giza,
     alexandria,
+    northCoast,
+    matrouh,
+    portSaid,
+    damietta,
+    suez,
+    ismailia,
+    hurghada,
+    sharmElSheikh,
+    dahab,
     sharqia,
     dakahlia,
     gharbia,
     qalyubia,
-    portSaid,
-    suez,
-    ismailia,
+    fayoum,
     luxor,
     aswan,
-    redSea,
-    southSinai,
-    fayoum,
     asyut,
     sohag,
     qena,
-    damietta,
-    matrouh,
+    redSea,
+    southSinai,
   ];
 }
