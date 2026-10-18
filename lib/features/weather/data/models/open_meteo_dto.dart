@@ -100,6 +100,22 @@ class OpenMeteoForecastDto {
         ? daily.uvIndexMax.first.round()
         : 6;
 
+    final sunriseStr = daily.sunrise.isNotEmpty
+        ? (DateTime.tryParse(daily.sunrise.first) != null
+            ? '${DateTime.parse(daily.sunrise.first).hour.toString().padLeft(2, '0')}:${DateTime.parse(daily.sunrise.first).minute.toString().padLeft(2, '0')}'
+            : '05:54')
+        : '05:54';
+
+    final sunsetStr = daily.sunset.isNotEmpty
+        ? (DateTime.tryParse(daily.sunset.first) != null
+            ? '${DateTime.parse(daily.sunset.first).hour.toString().padLeft(2, '0')}:${DateTime.parse(daily.sunset.first).minute.toString().padLeft(2, '0')}'
+            : '18:22')
+        : '18:22';
+
+    final precip = daily.precipitationProbabilityMax.isNotEmpty
+        ? daily.precipitationProbabilityMax.first.round()
+        : (current.precipitation > 0 ? 80 : 0);
+
     final currentDomain = CurrentWeather(
       temperature: current.temperature2m.round(),
       feelsLike: current.apparentTemperature.round(),
@@ -109,6 +125,12 @@ class OpenMeteoForecastDto {
       humidityPercentage: current.relativeHumidity2m.round(),
       windSpeedKmh: current.windSpeed10m.round(),
       uvIndex: uv,
+      pressureHpa: current.surfacePressure?.round() ?? 1013,
+      windDirectionDegrees: current.windDirection10m?.round() ?? 0,
+      precipitationProbability: precip,
+      sunriseTime: sunriseStr,
+      sunsetTime: sunsetStr,
+      isDay: current.isDay == 1,
     );
 
     // Map hourly (filter next 24 slots)
@@ -217,6 +239,8 @@ class OpenMeteoCurrentDto {
     required this.precipitation,
     required this.weatherCode,
     required this.windSpeed10m,
+    this.surfacePressure,
+    this.windDirection10m,
   });
 
   factory OpenMeteoCurrentDto.fromJson(Map<String, dynamic> json) {
@@ -229,6 +253,8 @@ class OpenMeteoCurrentDto {
       precipitation: ((json['precipitation'] ?? 0) as num).toDouble(),
       weatherCode: (json['weather_code'] as num).toInt(),
       windSpeed10m: (json['wind_speed_10m'] as num).toDouble(),
+      surfacePressure: (json['surface_pressure'] as num?)?.toDouble(),
+      windDirection10m: (json['wind_direction_10m'] as num?)?.toDouble(),
     );
   }
 
@@ -240,6 +266,8 @@ class OpenMeteoCurrentDto {
   final double precipitation;
   final int weatherCode;
   final double windSpeed10m;
+  final double? surfacePressure;
+  final double? windDirection10m;
 }
 
 class OpenMeteoHourlyDto {
@@ -273,6 +301,9 @@ class OpenMeteoDailyDto {
     required this.temperature2mMax,
     required this.temperature2mMin,
     required this.uvIndexMax,
+    this.sunrise = const [],
+    this.sunset = const [],
+    this.precipitationProbabilityMax = const [],
   });
 
   factory OpenMeteoDailyDto.fromJson(Map<String, dynamic> json) {
@@ -291,6 +322,19 @@ class OpenMeteoDailyDto {
               ?.map((e) => (e as num).toDouble())
               .toList() ??
           const [],
+      sunrise: (json['sunrise'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [],
+      sunset: (json['sunset'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [],
+      precipitationProbabilityMax:
+          (json['precipitation_probability_max'] as List<dynamic>?)
+                  ?.map((e) => (e as num).toDouble())
+                  .toList() ??
+              const [],
     );
   }
 
@@ -299,4 +343,7 @@ class OpenMeteoDailyDto {
   final List<double> temperature2mMax;
   final List<double> temperature2mMin;
   final List<double> uvIndexMax;
+  final List<String> sunrise;
+  final List<String> sunset;
+  final List<double> precipitationProbabilityMax;
 }

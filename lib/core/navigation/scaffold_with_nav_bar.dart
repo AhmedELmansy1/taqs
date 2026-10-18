@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:taqs/l10n/app_localizations.dart';
 
@@ -12,6 +14,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
   void _onTap(int index) {
+    unawaited(HapticFeedback.selectionClick());
     navigationShell.goBranch(
       index,
       initialLocation: index == navigationShell.currentIndex,

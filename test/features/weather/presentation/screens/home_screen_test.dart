@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:taqs/features/weather/presentation/screens/home_screen.dart';
 import 'package:taqs/features/weather/presentation/widgets/current_weather_card.dart';
 import 'package:taqs/features/weather/presentation/widgets/daily_forecast_list.dart';
-import 'package:taqs/features/weather/presentation/widgets/hourly_forecast_strip.dart';
+import 'package:taqs/features/weather/presentation/widgets/hourly_temperature_chart.dart';
 import '../../../../helpers/pump_app.dart';
 
 void main() {
@@ -24,7 +24,7 @@ void main() {
 
       // Check key layout components
       expect(find.byType(CurrentWeatherCard), findsOneWidget);
-      expect(find.byType(HourlyForecastStrip), findsOneWidget);
+      expect(find.byType(HourlyTemperatureChart), findsOneWidget);
       expect(find.byType(DailyForecastList), findsOneWidget);
 
       // Check temperature and location

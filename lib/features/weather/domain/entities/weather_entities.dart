@@ -14,6 +14,13 @@ class CurrentWeather {
     required this.humidityPercentage,
     required this.windSpeedKmh,
     required this.uvIndex,
+    this.pressureHpa = 1013,
+    this.windDirectionDegrees = 0,
+    this.precipitationProbability = 0,
+    this.visibilityKm = 10.0,
+    this.sunriseTime = '06:00',
+    this.sunsetTime = '18:00',
+    this.isDay = true,
   });
 
   factory CurrentWeather.fromJson(Map<String, dynamic> json) => CurrentWeather(
@@ -25,6 +32,15 @@ class CurrentWeather {
         humidityPercentage: json['humidityPercentage'] as int,
         windSpeedKmh: json['windSpeedKmh'] as int,
         uvIndex: json['uvIndex'] as int,
+        pressureHpa: (json['pressureHpa'] as num?)?.toInt() ?? 1013,
+        windDirectionDegrees:
+            (json['windDirectionDegrees'] as num?)?.toInt() ?? 0,
+        precipitationProbability:
+            (json['precipitationProbability'] as num?)?.toInt() ?? 0,
+        visibilityKm: (json['visibilityKm'] as num?)?.toDouble() ?? 10.0,
+        sunriseTime: json['sunriseTime'] as String? ?? '06:00',
+        sunsetTime: json['sunsetTime'] as String? ?? '18:00',
+        isDay: json['isDay'] as bool? ?? true,
       );
 
   final int temperature;
@@ -35,6 +51,13 @@ class CurrentWeather {
   final int humidityPercentage;
   final int windSpeedKmh;
   final int uvIndex;
+  final int pressureHpa;
+  final int windDirectionDegrees;
+  final int precipitationProbability;
+  final double visibilityKm;
+  final String sunriseTime;
+  final String sunsetTime;
+  final bool isDay;
 
   Map<String, dynamic> toJson() => {
         'temperature': temperature,
@@ -45,6 +68,13 @@ class CurrentWeather {
         'humidityPercentage': humidityPercentage,
         'windSpeedKmh': windSpeedKmh,
         'uvIndex': uvIndex,
+        'pressureHpa': pressureHpa,
+        'windDirectionDegrees': windDirectionDegrees,
+        'precipitationProbability': precipitationProbability,
+        'visibilityKm': visibilityKm,
+        'sunriseTime': sunriseTime,
+        'sunsetTime': sunsetTime,
+        'isDay': isDay,
       };
 }
 
