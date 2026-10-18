@@ -38,6 +38,12 @@ void main() {
 
       // Check Contact Info
       expect(find.text('ahmedelmansy1311@gmail.com'), findsOneWidget);
+
+      // Check Tech Focus, Why Taqs, and Action Buttons
+      expect(find.text('التركيز التقني والهندسي'), findsOneWidget);
+      expect(find.text('لماذا طقس؟'), findsOneWidget);
+      expect(find.text('مشاركة تطبيق طقس'), findsOneWidget);
+      expect(find.text('تراخيص البرمجيات مفتوحة المصدر'), findsOneWidget);
     });
 
     testWidgets('renders developer details correctly in English', (tester) async {
@@ -57,6 +63,10 @@ void main() {
       expect(find.text('Ahmed Elmansy'), findsOneWidget);
       expect(find.textContaining('Benha University'), findsOneWidget);
       expect(find.textContaining('Graduation Project: Forgery Detection'), findsOneWidget);
+      expect(find.text('Technical Focus Areas'), findsOneWidget);
+      expect(find.text('Why Taqs?'), findsOneWidget);
+      expect(find.text('Share Taqs App'), findsOneWidget);
+      expect(find.text('Open Source Licenses'), findsOneWidget);
     });
   });
 }

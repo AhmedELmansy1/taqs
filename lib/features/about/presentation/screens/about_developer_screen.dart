@@ -8,6 +8,8 @@ import 'package:taqs/features/about/presentation/widgets/developer_hero_header.d
 import 'package:taqs/features/about/presentation/widgets/education_card.dart';
 import 'package:taqs/features/about/presentation/widgets/projects_list.dart';
 import 'package:taqs/features/about/presentation/widgets/skills_chip_group.dart';
+import 'package:taqs/features/about/presentation/widgets/tech_focus_card.dart';
+import 'package:taqs/features/about/presentation/widgets/why_taqs_card.dart';
 import 'package:taqs/l10n/app_localizations.dart';
 
 /// Screen displaying verified information about the developer (Ahmed Elmansy).
@@ -39,6 +41,10 @@ class AboutDeveloperScreen extends StatelessWidget {
                 profile: profile,
                 isArabic: isArabic,
               ),
+              const SizedBox(height: AppSpacing.lg),
+
+              // Tech Focus Tri-Pillar Card
+              TechFocusCard(isArabic: isArabic),
               const SizedBox(height: AppSpacing.xl),
 
               // Education Section
@@ -50,16 +56,31 @@ class AboutDeveloperScreen extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.xl),
 
-              // Skills Section
+              // Skills Section (Grouped by Category)
               SectionHeader(title: l10n.skillsSectionTitle),
               const SizedBox(height: AppSpacing.xs),
-              SkillsChipGroup(skills: profile.skills),
+              SkillsChipGroup(
+                skills: profile.skills,
+                categories: profile.skillCategories,
+                isArabic: isArabic,
+              ),
               const SizedBox(height: AppSpacing.xl),
 
-              // Projects Section
+              // Projects Section (Verified Projects)
               SectionHeader(title: l10n.projectsSectionTitle),
               const SizedBox(height: AppSpacing.xs),
-              ProjectsList(projects: profile.projects),
+              ProjectsList(
+                projects: profile.projects,
+                projectItems: profile.projectItems,
+                isArabic: isArabic,
+              ),
+              const SizedBox(height: AppSpacing.xl),
+
+              // Why Taqs Architectural Note
+              WhyTaqsCard(
+                whyTaqsText: isArabic ? profile.whyTaqsAr : profile.whyTaqsEn,
+                isArabic: isArabic,
+              ),
               const SizedBox(height: AppSpacing.xl),
 
               // Contact Section
@@ -67,8 +88,8 @@ class AboutDeveloperScreen extends StatelessWidget {
               const SizedBox(height: AppSpacing.xs),
               ContactSection(contact: profile.contact),
 
-              // Footer
-              const AboutFooter(),
+              // Footer with Share, Licenses, and Open-Meteo
+              AboutFooter(isArabic: isArabic),
             ],
           ),
         ),

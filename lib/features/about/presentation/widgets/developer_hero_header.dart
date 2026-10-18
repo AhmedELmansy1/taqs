@@ -5,7 +5,7 @@ import 'package:taqs/core/design/tokens/app_radius.dart';
 import 'package:taqs/core/design/tokens/app_spacing.dart';
 import 'package:taqs/features/about/data/developer_profile.dart';
 
-/// Hero header widget displaying developer avatar, name, title, location, and summary.
+/// Hero header widget displaying developer avatar, name, verified badge, title, location, and summary.
 class DeveloperHeroHeader extends StatelessWidget {
   const DeveloperHeroHeader({
     required this.profile,
@@ -30,50 +30,79 @@ class DeveloperHeroHeader extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.xl),
       child: Column(
         children: [
-          // Monogram Avatar
+          // Avatar: Photo from assets/images/developer.jpg if present, else luxury monogram
           Container(
-            width: 72,
-            height: 72,
+            width: 80,
+            height: 80,
+            padding: const EdgeInsets.all(3),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.electricBlue,
-                  AppColors.cyanAccent.withValues(alpha: 0.8),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+              border: Border.all(
+                color: AppColors.metallicGold.withValues(alpha: 0.6),
+                width: 1.5,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.electricBlue.withValues(alpha: 0.25),
+                  color: AppColors.electricBlue.withValues(alpha: 0.2),
                   blurRadius: 16,
                   offset: const Offset(0, 4),
                 ),
               ],
             ),
-            child: const Center(
-              child: Text(
-                'AE',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 1,
-                ),
+            child: ClipOval(
+              child: Image.asset(
+                'assets/images/developer.jpg',
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          AppColors.electricBlue,
+                          AppColors.cyanAccent.withValues(alpha: 0.8),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'AE',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 26,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ),
           const SizedBox(height: AppSpacing.md),
-          Text(
-            name,
-            style: theme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.w800,
-              color: isDark
-                  ? AppColors.darkTextPrimary
-                  : AppColors.lightTextPrimary,
-            ),
-            textAlign: TextAlign.center,
+          // Name + Verified Badge
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                name,
+                style: theme.textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  color: isDark
+                      ? AppColors.darkTextPrimary
+                      : AppColors.lightTextPrimary,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(width: AppSpacing.xs),
+              const Icon(
+                Icons.verified_rounded,
+                size: 20,
+                color: AppColors.cyanAccent,
+              ),
+            ],
           ),
           const SizedBox(height: AppSpacing.xs),
           Text(
