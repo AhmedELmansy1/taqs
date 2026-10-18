@@ -8,8 +8,11 @@ import 'package:taqs/core/navigation/app_router.dart';
 import 'package:taqs/core/notifications/notification_service.dart';
 import 'package:taqs/core/notifications/prayer_notification_scheduler.dart';
 import 'package:taqs/core/theme/theme_controller.dart';
+import 'package:taqs/core/widgets/home_widget_manager.dart';
 import 'package:taqs/features/location/presentation/providers/location_controller.dart';
 import 'package:taqs/features/prayer/presentation/providers/prayer_settings_controller.dart';
+import 'package:taqs/features/prayer/presentation/providers/prayer_view_model.dart';
+import 'package:taqs/features/weather/presentation/providers/weather_provider.dart';
 import 'package:taqs/l10n/app_localizations.dart';
 
 /// Root application widget configuring routing, themes, and localization.
@@ -42,6 +45,20 @@ class TaqsApp extends ConsumerWidget {
       unawaited(
         triggerPrayerNotificationReschedule(
           ref,
+          isArabic: locale.languageCode != 'en',
+        ),
+      );
+    });
+
+    // Update Android Home-Screen widgets whenever weather or prayer times update
+    ref.listen(weatherViewModelProvider, (_, weatherState) {
+      final weather = weatherState.asData?.value;
+      if (weather == null) return;
+      final prayer = ref.read(prayerViewModelProvider);
+      unawaited(
+        HomeWidgetManager.updateWidgets(
+          weather: weather,
+          prayerTimes: prayer,
           isArabic: locale.languageCode != 'en',
         ),
       );

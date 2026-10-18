@@ -9,8 +9,10 @@ import 'package:taqs/core/network/http_client.dart';
 import 'package:taqs/core/notifications/notification_service.dart';
 import 'package:taqs/core/notifications/prayer_notification_scheduler.dart';
 import 'package:taqs/core/notifications/weather_notification_builder.dart';
+import 'package:taqs/core/widgets/home_widget_manager.dart';
 import 'package:taqs/features/location/domain/entities/location_item.dart';
 import 'package:taqs/features/prayer/domain/entities/prayer_entities.dart';
+import 'package:taqs/features/prayer/domain/services/prayer_times_calculator.dart';
 import 'package:taqs/features/prayer/presentation/providers/prayer_settings_controller.dart';
 import 'package:taqs/features/weather/data/data_sources/open_meteo_remote_data_source.dart';
 import 'package:taqs/features/weather/domain/entities/weather_entities.dart';
@@ -153,6 +155,22 @@ void callbackDispatcher() {
             masterNotificationsEnabled: masterEnabled,
             leadTimeMinutes: leadMin,
           ),
+          isArabic: isArabic,
+        );
+      } on Object catch (_) {}
+
+      // Update Android Home-Screen widgets from background worker
+      try {
+        final prayerBundle = PrayerTimesCalculator.calculate(
+          latitude: latitude,
+          longitude: longitude,
+          date: DateTime.now(),
+          cityNameAr: cityNameAr,
+          cityNameEn: cityNameEn,
+        );
+        await HomeWidgetManager.updateWidgets(
+          weather: bundle,
+          prayerTimes: prayerBundle,
           isArabic: isArabic,
         );
       } on Object catch (_) {}

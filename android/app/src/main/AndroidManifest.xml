@@ -44,6 +44,25 @@
             </intent-filter>
         </receiver>
 
+        <!-- Taqs Android Home-Screen Widgets -->
+        <receiver android:name=".TaqsWidgetProvider" android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/taqs_widget_4x2_info" />
+        </receiver>
+
+        <receiver android:name=".TaqsWidget2x2Provider" android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/taqs_widget_2x2_info" />
+        </receiver>
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
