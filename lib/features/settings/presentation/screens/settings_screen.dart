@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:taqs/core/design/branding/taqs_logo.dart';
 import 'package:taqs/core/design/components/app_card.dart';
 import 'package:taqs/core/design/components/section_header.dart';
 import 'package:taqs/core/design/tokens/app_colors.dart';
@@ -49,6 +50,20 @@ class SettingsScreen extends ConsumerWidget {
               vertical: AppSpacing.md,
             ),
             children: [
+              // --- Brand Lockup Header ---
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: AppSpacing.xs,
+                    bottom: AppSpacing.lg,
+                  ),
+                  child: TaqsLogoLockup(
+                    logoSize: 52,
+                    isArabic: isArabic,
+                  ),
+                ),
+              ),
+
               // --- Appearance Section ---
               SectionHeader(title: l10n.appearanceSection),
               const SizedBox(height: AppSpacing.xs),

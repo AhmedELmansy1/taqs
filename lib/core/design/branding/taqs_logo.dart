@@ -5,7 +5,7 @@ import 'package:taqs/core/design/tokens/app_spacing.dart';
 
 /// Style variants for the official Taqs logo mark.
 enum TaqsLogoVariant {
-  /// Full brand colors: Electric Blue to Cyan gradient with Metallic Gold horizon ray.
+  /// Full brand colors: Electric Blue to Cyan with Metallic Gold crescent & accent.
   fullColor,
 
   /// Single solid color (configured via the logo's monochromeColor parameter).
@@ -14,8 +14,9 @@ enum TaqsLogoVariant {
 
 /// Official brand logo mark for Taqs (طقس).
 ///
-/// Merges the Arabic letter "ط" with an ascending sun horizon arc,
-/// custom-painted for crisp rasterization at any resolution (from 24dp to 1024dp).
+/// Merges the Arabic letter "ط" with an ascending sun horizon arc and golden crescent,
+/// representing both weather and prayer times. Custom-painted for crisp rasterization
+/// at any resolution (from 24dp to 1024dp).
 class TaqsLogo extends StatelessWidget {
   const TaqsLogo({
     super.key,
@@ -48,11 +49,13 @@ class TaqsLogo extends StatelessWidget {
     Widget content = SizedBox(
       width: size,
       height: size,
-      child: CustomPaint(
-        size: Size(size, size),
-        painter: _TaqsLogoPainter(
-          variant: variant,
-          monochromeColor: monochromeColor ?? Colors.white,
+      child: RepaintBoundary(
+        child: CustomPaint(
+          size: Size(size, size),
+          painter: _TaqsLogoPainter(
+            variant: variant,
+            monochromeColor: monochromeColor ?? Colors.white,
+          ),
         ),
       ),
     );
@@ -74,13 +77,13 @@ class TaqsLogo extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: AppColors.cyanAccent.withValues(alpha: 0.12),
+              color: AppColors.cyanAccent.withValues(alpha: 0.14),
               blurRadius: size * 0.25,
               offset: Offset(0, size * 0.08),
             ),
           ],
           border: Border.all(
-            color: AppColors.cyanAccent.withValues(alpha: 0.15),
+            color: AppColors.cyanAccent.withValues(alpha: 0.18),
             width: size * 0.015 > 1 ? size * 0.015 : 1,
           ),
         ),
@@ -140,8 +143,8 @@ class TaqsLogoLockup extends StatelessWidget {
               const SizedBox(height: 2),
               Text(
                 isArabic
-                    ? 'طقس جمهورية مصر العربية'
-                    : 'Egypt Smart Weather',
+                    ? 'طقس ومواقيت الصلاة • مصر'
+                    : 'Egypt Weather & Prayer Times',
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: AppColors.cyanAccent,
                   fontWeight: FontWeight.w600,
@@ -176,20 +179,13 @@ class _TaqsLogoPainter extends CustomPainter {
 
     final isFullColor = variant == TaqsLogoVariant.fullColor;
 
-    // Paints
     final Paint sunPaint;
-    final Paint primaryPaint;
+    final Paint goldPaint;
+    final Paint skyPaint;
     final Paint goldStrokePaint;
 
     if (isFullColor) {
       sunPaint = Paint()
-        ..shader = const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFFFBBF24), Color(0xFFD97706)],
-        ).createShader(const Rect.fromLTWH(238, 158, 104, 104));
-
-      primaryPaint = Paint()
         ..shader = const LinearGradient(
           begin: Alignment.bottomLeft,
           end: Alignment.topRight,
@@ -198,79 +194,115 @@ class _TaqsLogoPainter extends CustomPainter {
             Color(0xFF0284C7),
             Color(0xFF06B6D4),
           ],
-        ).createShader(const Rect.fromLTWH(96, 90, 360, 300))
+          stops: [0.0, 0.5, 1.0],
+        ).createShader(const Rect.fromLTWH(226, 174, 108, 108));
+
+      goldPaint = Paint()
+        ..shader = const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFFFDE68A),
+            Color(0xFFF59E0B),
+            Color(0xFFD97706),
+          ],
+          stops: [0.0, 0.5, 1.0],
+        ).createShader(const Rect.fromLTWH(220, 176, 60, 140));
+
+      skyPaint = Paint()
+        ..shader = const LinearGradient(
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+          colors: [
+            Color(0xFF1D4ED8),
+            Color(0xFF0284C7),
+            Color(0xFF06B6D4),
+          ],
+          stops: [0.0, 0.5, 1.0],
+        ).createShader(const Rect.fromLTWH(96, 86, 360, 300))
         ..style = PaintingStyle.fill;
 
       goldStrokePaint = Paint()
         ..shader = const LinearGradient(
-          colors: [Color(0xFFFBBF24), Color(0xFFD97706)],
-        ).createShader(const Rect.fromLTWH(130, 290, 260, 60))
+          colors: [Color(0xFFFDE68A), Color(0xFFD97706)],
+        ).createShader(const Rect.fromLTWH(134, 304, 244, 46))
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 8
+        ..strokeWidth = 6
         ..strokeCap = StrokeCap.round;
     } else {
       sunPaint = Paint()..color = monochromeColor;
-      primaryPaint = Paint()
+      goldPaint = Paint()..color = monochromeColor;
+      skyPaint = Paint()
         ..color = monochromeColor
         ..style = PaintingStyle.fill;
       goldStrokePaint = Paint()
         ..color = monochromeColor
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 8
+        ..strokeWidth = 6
         ..strokeCap = StrokeCap.round;
     }
 
-    // 1. Sun disc
-    canvas.drawCircle(const Offset(290, 210), 52, sunPaint);
+    // 1. Sun disc: Weather solar cycle / Fajr dawn (Electric Blue to Cyan)
+    canvas.drawCircle(const Offset(280, 228), 54, sunPaint);
 
-    // 2. Ascending Mast (ألف الطاء)
+    // 2. Golden Crescent: Islamic Prayer Times & Lunar Hijri cycle
+    final crescentPath = Path()
+      ..moveTo(276, 176)
+      ..cubicTo(242, 184, 218, 214, 220, 250)
+      ..cubicTo(222, 284, 246, 312, 280, 316)
+      ..cubicTo(252, 308, 234, 282, 236, 252)
+      ..cubicTo(238, 220, 258, 190, 276, 176)
+      ..close();
+    canvas.drawPath(crescentPath, goldPaint);
+
+    // 3. Upright Mast (ألف الطاء) – Minaret finial and vertical dawn ray
     final mastPath = Path()
-      ..moveTo(284, 104)
-      ..cubicTo(284, 96, 292, 90, 300, 90)
-      ..cubicTo(308, 90, 314, 96, 314, 104)
-      ..lineTo(314, 260)
-      ..cubicTo(314, 268, 308, 274, 300, 274)
-      ..cubicTo(292, 274, 284, 268, 284, 260)
+      ..moveTo(314, 100)
+      ..cubicTo(314, 92, 322, 86, 330, 86)
+      ..cubicTo(338, 86, 344, 92, 344, 100)
+      ..lineTo(344, 266)
+      ..cubicTo(344, 274, 338, 280, 330, 280)
+      ..cubicTo(322, 280, 314, 274, 314, 266)
       ..close();
-    canvas.drawPath(mastPath, primaryPaint);
+    canvas.drawPath(mastPath, skyPaint);
 
-    // 3. Sweeping Loop of "ط"
+    // 4. Sweeping loop of Arabic letter "ط" & Weather Horizon Wave
     final loopPath = Path()
-      ..moveTo(120, 340)
-      ..cubicTo(150, 240, 250, 220, 350, 250)
-      ..cubicTo(400, 265, 430, 300, 440, 340)
-      ..cubicTo(420, 346, 380, 348, 340, 344)
-      ..cubicTo(260, 336, 210, 270, 170, 310)
-      ..cubicTo(150, 330, 135, 340, 120, 340)
+      ..moveTo(124, 344)
+      ..cubicTo(154, 244, 260, 216, 364, 248)
+      ..cubicTo(404, 260, 428, 288, 438, 328)
+      ..cubicTo(420, 336, 384, 340, 348, 338)
+      ..cubicTo(266, 332, 216, 268, 174, 308)
+      ..cubicTo(152, 330, 138, 342, 124, 344)
       ..close();
-    canvas.drawPath(loopPath, primaryPaint);
+    canvas.drawPath(loopPath, skyPaint);
 
-    // 4. Horizon Wave Base
+    // 5. Horizon Wave Base (Egypt Nile / Sea / Desert Horizon)
     final wavePath = Path()
-      ..moveTo(104, 350)
-      ..cubicTo(170, 350, 220, 320, 300, 320)
-      ..cubicTo(370, 320, 420, 348, 448, 350)
-      ..cubicTo(448, 368, 436, 382, 416, 382)
-      ..cubicTo(340, 382, 270, 358, 190, 366)
-      ..cubicTo(150, 370, 120, 380, 104, 380)
-      ..cubicTo(96, 380, 92, 370, 96, 360)
-      ..cubicTo(98, 354, 100, 350, 104, 350)
+      ..moveTo(104, 354)
+      ..cubicTo(180, 354, 236, 328, 320, 328)
+      ..cubicTo(386, 328, 430, 350, 448, 354)
+      ..cubicTo(448, 370, 436, 382, 416, 382)
+      ..cubicTo(340, 382, 274, 360, 196, 368)
+      ..cubicTo(154, 372, 124, 382, 106, 382)
+      ..cubicTo(98, 382, 94, 372, 98, 362)
+      ..cubicTo(100, 357, 102, 354, 104, 354)
       ..close();
-    canvas.drawPath(wavePath, primaryPaint);
+    canvas.drawPath(wavePath, skyPaint);
 
-    // 5. Horizon Accent Ray
+    // 6. Refined Metallic Gold Horizon Accent Line
     final accentPath = Path()
-      ..moveTo(130, 348)
-      ..cubicTo(220, 340, 280, 290, 380, 310);
+      ..moveTo(134, 350)
+      ..cubicTo(220, 344, 286, 304, 378, 320);
     canvas.drawPath(accentPath, goldStrokePaint);
 
-    // 6. Subtle celestial stars (fullColor only)
+    // 7. Subtle Celestial Stars (fullColor only)
     if (isFullColor) {
       final starPaint = Paint()
-        ..color = const Color(0xFF38BDF8).withValues(alpha: 0.7);
+        ..color = const Color(0xFF38BDF8).withValues(alpha: 0.65);
       canvas
-        ..drawCircle(const Offset(168, 180), 4, starPaint)
-        ..drawCircle(const Offset(396, 160), 3, starPaint);
+        ..drawCircle(const Offset(164, 184), 4, starPaint)
+        ..drawCircle(const Offset(410, 164), 3.5, starPaint);
     }
 
     canvas.restore();

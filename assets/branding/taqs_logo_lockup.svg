@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 360" width="100%" height="100%">
+  <!-- Taqs Brand Lockup: Logo Mark + Arabic "طقس" + English "Taqs" -->
+  <defs>
+    <linearGradient id="lockupSky" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1D4ED8" />
+      <stop offset="50%" stop-color="#0284C7" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+    <linearGradient id="lockupGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+    <linearGradient id="lockupBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="50%" stop-color="#0B132B" />
+      <stop offset="100%" stop-color="#070D1E" />
+    </linearGradient>
+  </defs>
+
+  <!-- Dark Background -->
+  <rect width="1000" height="360" rx="36" fill="url(#lockupBg)" />
+
+  <!-- Logo Mark at x=40, y=40, size=280x280 (scaled from 512x512, scale=280/512 ~ 0.5468) -->
+  <g transform="translate(40, 40) scale(0.546875)">
+    <!-- Sun Disc -->
+    <circle cx="280" cy="228" r="54" fill="url(#lockupSky)" />
+
+    <!-- Golden Crescent -->
+    <path d="M 276 176 C 242 184 218 214 220 250 C 222 284 246 312 280 316 C 252 308 234 282 236 252 C 238 220 258 190 276 176 Z" fill="url(#lockupGold)" />
+
+    <!-- Upright Mast -->
+    <path d="M 314 100 C 314 92 322 86 330 86 C 338 86 344 92 344 100 L 344 266 C 344 274 338 280 330 280 C 322 280 314 274 314 266 Z" fill="url(#lockupSky)" />
+
+    <!-- Sweeping loop of 'ط' -->
+    <path d="M 124 344 C 154 244 260 216 364 248 C 404 260 428 288 438 328 C 420 336 384 340 348 338 C 266 332 216 268 174 308 C 152 330 138 342 124 344 Z" fill="url(#lockupSky)" />
+
+    <!-- Horizon Wave Base -->
+    <path d="M 104 354 C 180 354 236 328 320 328 C 386 328 430 350 448 354 C 448 370 436 382 416 382 C 340 382 274 360 196 368 C 154 372 124 382 106 382 C 98 382 94 372 98 362 C 100 357 102 354 104 354 Z" fill="url(#lockupSky)" opacity="0.9" />
+
+    <!-- Gold Accent Line -->
+    <path d="M 134 350 C 220 344 286 304 378 320" stroke="url(#lockupGold)" stroke-width="6" stroke-linecap="round" fill="none" />
+  </g>
+
+  <!-- Typography Block -->
+  <g transform="translate(360, 0)">
+    <!-- Arabic Primary Wordmark: طقس -->
+    <text x="0" y="160" font-family="'Cairo', 'Segoe UI', system-ui, sans-serif" font-size="108" font-weight="900" fill="#FFFFFF" letter-spacing="1">طقس</text>
+    
+    <!-- English Subtitle / Brand: Taqs • Weather & Prayer -->
+    <text x="5" y="222" font-family="'Inter', 'Segoe UI', system-ui, sans-serif" font-size="34" font-weight="700" fill="#38BDF8" letter-spacing="2">Taqs</text>
+    <text x="120" y="222" font-family="'Inter', 'Segoe UI', system-ui, sans-serif" font-size="24" font-weight="500" fill="#94A3B8" letter-spacing="1.5">| Weather &amp; Prayer Times</text>
+
+    <!-- Refined Gold Rule -->
+    <line x1="5" y1="246" x2="520" y2="246" stroke="url(#lockupGold)" stroke-width="3" stroke-linecap="round" opacity="0.8" />
+
+    <!-- Arabic Tagline -->
+    <text x="5" y="286" font-family="'Cairo', 'Segoe UI', system-ui, sans-serif" font-size="22" font-weight="600" fill="#FDE68A">مواقيت الصلاة والطقس الذكي لمصر</text>
+  </g>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- Candidate B: The Arabic letter "ط" with Solar Arc & Crescent Accent -->
+  <defs>
+    <linearGradient id="skyGradB" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1D4ED8" />
+      <stop offset="50%" stop-color="#0284C7" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+    <linearGradient id="goldGradB" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A" />
+      <stop offset="40%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+  </defs>
+
+  <!-- Deep Navy Base -->
+  <rect width="512" height="512" rx="112" fill="#0B132B" />
+
+  <!-- Sun Disc nestled inside the loop of the 'ط' (Electric Blue to Cyan) -->
+  <circle cx="280" cy="228" r="54" fill="url(#skyGradB)" />
+
+  <!-- Elegant Golden Crescent framing the upper-left of the sun disc -->
+  <!-- Represents Islamic prayer times (Fajr/Maghrib) and lunar calendar -->
+  <path d="M 276 176 C 242 184 218 214 220 250 C 222 284 246 312 280 316 C 252 308 234 282 236 252 C 238 220 258 190 276 176 Z" fill="url(#goldGradB)" />
+
+  <!-- Upright Mast (ألف الطاء) – refined architectural taper -->
+  <path d="M 314 100 C 314 92 322 86 330 86 C 338 86 344 92 344 100 L 344 266 C 344 274 338 280 330 280 C 322 280 314 274 314 266 Z" fill="url(#skyGradB)" />
+
+  <!-- The sweeping loop of Arabic letter "ط" & Weather Horizon Wave -->
+  <path d="M 124 344 C 154 244 260 216 364 248 C 404 260 428 288 438 328 C 420 336 384 340 348 338 C 266 332 216 268 174 308 C 152 330 138 342 124 344 Z" fill="url(#skyGradB)" />
+
+  <!-- Horizon Ground Base with golden accent highlight -->
+  <path d="M 104 354 C 180 354 236 328 320 328 C 386 328 430 350 448 354 C 448 370 436 382 416 382 C 340 382 274 360 196 368 C 154 372 124 382 106 382 C 98 382 94 372 98 362 C 100 357 102 354 104 354 Z" fill="url(#skyGradB)" opacity="0.9" />
+
+  <!-- Subtle Metallic Gold Horizon Accent Line -->
+  <path d="M 134 350 C 220 344 286 304 378 320" stroke="url(#goldGradB)" stroke-width="6" stroke-linecap="round" fill="none" />
+</svg>

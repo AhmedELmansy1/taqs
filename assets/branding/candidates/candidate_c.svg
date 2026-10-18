@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- Candidate C: Minimal Geometric Arch / Mihrab Containing Sun Disc -->
+  <defs>
+    <linearGradient id="skyGradC" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="50%" stop-color="#0284C7" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+    <linearGradient id="goldGradC" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+  </defs>
+
+  <!-- Deep Navy Base -->
+  <rect width="512" height="512" rx="112" fill="#0B132B" />
+
+  <!-- Outer Architectural Mihrab Arch (Pointed Islamic Arch) -->
+  <path d="M 256 96 C 262 108 300 162 344 196 C 368 214 380 240 380 272 L 380 392 C 380 402 372 410 362 410 L 334 410 C 324 410 316 402 316 392 L 316 288 C 316 268 304 246 286 234 C 268 222 256 208 256 208 C 256 208 244 222 226 234 C 208 246 196 268 196 288 L 196 392 C 196 402 188 410 178 410 L 150 410 C 140 410 132 402 132 392 L 132 272 C 132 240 144 214 168 196 C 212 162 250 108 256 96 Z" fill="url(#goldGradC)" />
+
+  <!-- Luminous Weather Sun Disc centered within the Niche -->
+  <circle cx="256" cy="276" r="64" fill="url(#skyGradC)" />
+
+  <!-- Horizontal Atmospheric Rays crossing the sun / base -->
+  <rect x="204" y="348" width="104" height="12" rx="6" fill="#38BDF8" opacity="0.9" />
+  <rect x="220" y="374" width="72" height="10" rx="5" fill="#0284C7" opacity="0.75" />
+</svg>
