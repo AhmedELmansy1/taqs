@@ -22,11 +22,15 @@ dependencies:
   http: ^1.6.0
   intl: ^0.20.3
   package_info_plus: ^10.2.2
+  share_plus: ^13.3.1
   shared_preferences: ^2.5.6
   url_launcher: ^6.3.3
+  workmanager: ^0.10.10
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.14.4
   flutter_lints: ^6.0.0
+  flutter_native_splash: ^2.4.8
   flutter_test:
     sdk: flutter
   mocktail: ^1.0.5
@@ -35,3 +39,33 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    - assets/branding/
+    - assets/images/
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/branding/app_icon.png"
+  min_sdk_android: 21
+  adaptive_icon_background: "assets/branding/app_icon_background.png"
+  adaptive_icon_foreground: "assets/branding/app_icon_foreground.png"
+  adaptive_icon_monochrome: "assets/branding/app_icon_monochrome.png"
+  remove_alpha_ios: true
+  background_color_ios: "#0B111E"
+
+flutter_native_splash:
+  color: "#0B111E"
+  image: "assets/branding/splash_logo.png"
+  color_dark: "#0B111E"
+  image_dark: "assets/branding/splash_logo.png"
+  android_12:
+    color: "#0B111E"
+    color_dark: "#0B111E"
+    image: "assets/branding/splash_logo.png"
+    image_dark: "assets/branding/splash_logo.png"
+    icon_background_color: "#0B111E"
+  android: true
+  ios: true
+  web: false
+
