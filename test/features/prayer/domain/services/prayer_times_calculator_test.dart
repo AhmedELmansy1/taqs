@@ -110,5 +110,47 @@ void main() {
       final adjMaghrib = adjusted.prayers.firstWhere((p) => p.type == PrayerType.maghrib);
       expect(adjMaghrib.time.difference(baseMaghrib.time).inMinutes, -3);
     });
+
+    test('verifies geographical reference gradient across Cairo, Alexandria, and Aswan', () {
+      // Reference date: 18 October 2026
+      // Source: Egyptian General Authority of Survey (Fajr 19.5°, Isha 17.5°, Shafi'i Asr)
+      final date = DateTime(2026, 10, 18, 12);
+
+      final cairo = PrayerTimesCalculator.calculate(
+        latitude: 30.0444,
+        longitude: 31.2357,
+        date: date,
+        cityNameAr: 'القاهرة',
+        cityNameEn: 'Cairo',
+      );
+
+      final alexandria = PrayerTimesCalculator.calculate(
+        latitude: 31.2001,
+        longitude: 29.9187,
+        date: date,
+        cityNameAr: 'الإسكندرية',
+        cityNameEn: 'Alexandria',
+      );
+
+      final aswan = PrayerTimesCalculator.calculate(
+        latitude: 24.0889,
+        longitude: 32.8998,
+        date: date,
+        cityNameAr: 'أسوان',
+        cityNameEn: 'Aswan',
+      );
+
+      final cairoDhuhr = cairo.prayers.firstWhere((p) => p.type == PrayerType.dhuhr).time;
+      final alexDhuhr = alexandria.prayers.firstWhere((p) => p.type == PrayerType.dhuhr).time;
+      final aswanDhuhr = aswan.prayers.firstWhere((p) => p.type == PrayerType.dhuhr).time;
+
+      // Alexandria is west of Cairo (29.92°E vs 31.24°E = ~1.32° diff ~5.3 minutes later)
+      final alexDiffMinutes = alexDhuhr.difference(cairoDhuhr).inMinutes;
+      expect(alexDiffMinutes, inInclusiveRange(4, 6));
+
+      // Aswan is east of Cairo (32.90°E vs 31.24°E = ~1.66° diff ~6.6 minutes earlier)
+      final aswanDiffMinutes = cairoDhuhr.difference(aswanDhuhr).inMinutes;
+      expect(aswanDiffMinutes, inInclusiveRange(5, 8));
+    });
   });
 }
