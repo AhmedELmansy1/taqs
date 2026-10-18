@@ -26,6 +26,9 @@ abstract interface class LocationService {
 
   /// Opens the OS application settings page for manual permission granting.
   Future<void> openAppSettings();
+
+  /// Opens the device system location settings dialog.
+  Future<void> openLocationSettings();
 }
 
 /// Production implementation of [LocationService] using `geolocator`.
@@ -87,6 +90,11 @@ class GeolocatorLocationService implements LocationService {
   @override
   Future<void> openAppSettings() async {
     await Geolocator.openAppSettings();
+  }
+
+  @override
+  Future<void> openLocationSettings() async {
+    await Geolocator.openLocationSettings();
   }
 
   LocationPermissionStatus _mapPermission(LocationPermission permission) {

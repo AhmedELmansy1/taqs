@@ -30,6 +30,11 @@ class _FakeLocationService implements LocationService {
   Future<void> openAppSettings() async {
     appSettingsOpened++;
   }
+
+  @override
+  Future<void> openLocationSettings() async {
+    appSettingsOpened++;
+  }
 }
 
 void main() {

@@ -6,6 +6,7 @@ import 'package:taqs/core/design/branding/taqs_logo.dart';
 import 'package:taqs/core/design/components/atmospheric_background.dart';
 import 'package:taqs/core/design/components/error_state.dart';
 import 'package:taqs/core/design/components/loading_state.dart';
+import 'package:taqs/core/design/components/permission_recovery_banner.dart';
 import 'package:taqs/core/design/components/section_header.dart';
 import 'package:taqs/core/design/tokens/app_colors.dart';
 import 'package:taqs/core/design/tokens/app_spacing.dart';
@@ -129,6 +130,9 @@ class HomeScreen extends ConsumerWidget {
                               .read(weatherViewModelProvider.notifier)
                               .refresh(),
                         ),
+
+                      // Non-intrusive missing permission recovery banner
+                      const PermissionRecoveryBanner(),
 
                       // Severe Weather Alerts if triggered
                       if (alerts.isNotEmpty) ...[
