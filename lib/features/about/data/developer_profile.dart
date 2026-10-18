@@ -189,8 +189,8 @@ class DeveloperProfile {
       linkedinUrl: 'https://www.linkedin.com/in/ahmed-elmansy-a6b494346',
     ),
     whyTaqsAr:
-        'تطبيق طقس هو تطبيق عربي مصمم بأعلى معايير الجودة، مبني وفق هندسة برمجية نظيفة (Clean Architecture) وإدارة حالة معتمدة على Riverpod، مع معالجة البيانات وتخزينها محلياً دون أي بيانات مفبركة.',
+        'تطبيق طقس ومواقيت الصلاة هو تطبيق عربي مصمم بأعلى معايير الجودة، مبني وفق هندسة برمجية نظيفة (Clean Architecture) وإدارة حالة معتمدة على Riverpod، مع معالجة البيانات وحساب المواقيت بدقة محلياً دون أي بيانات مفبركة.',
     whyTaqsEn:
-        'Taqs is an Arabic-first weather app engineered with Clean Architecture and Riverpod, ensuring reliable, offline-first meteorological data with zero synthetic metrics.',
+        'Taqs (Weather & Prayer Times) is an Arabic-first app engineered with Clean Architecture and Riverpod, ensuring reliable, offline-first meteorological data and astronomical prayer calculations with zero synthetic metrics.',
   );
 }

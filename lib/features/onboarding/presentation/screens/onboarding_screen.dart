@@ -226,11 +226,20 @@ class _WelcomeStep extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
+          const SizedBox(height: AppSpacing.xs),
+          Text(
+            isArabic ? 'طقس ومواقيت الصلاة' : 'Weather & Prayer Times',
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: isDark ? AppColors.cyanAccent : AppColors.electricBlue,
+              fontWeight: FontWeight.w700,
+            ),
+            textAlign: TextAlign.center,
+          ),
           const SizedBox(height: AppSpacing.md),
           Text(
             isArabic
-                ? 'تطبيق الطقس الذكي الأول لجمهورية مصر العربية، المصمم بأحدث المعايير المعمارية ودقة الأرصاد الجوية الفائقة.'
-                : 'Egypt’s premier smart weather app, beautifully engineered with modern architecture and atmospheric precision.',
+                ? 'تطبيق الطقس ومواقيت الصلاة الأول لجمهورية مصر العربية، المصمم بأحدث المعايير المعمارية وحسابات المواقيت الفلكية الدقيقة.'
+                : 'Egypt’s premier smart weather and prayer times app, beautifully engineered with modern architecture and astronomical precision.',
             style: theme.textTheme.bodyMedium?.copyWith(
               color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
               height: 1.6,
@@ -243,6 +252,13 @@ class _WelcomeStep extends StatelessWidget {
             child: Column(
               children: [
                 _FeaturePill(
+                  icon: Icons.mosque_outlined,
+                  text: isArabic
+                      ? 'مواقيت الصلاة بدقة الهيئة المصرية للمساحة'
+                      : 'Accurate prayer times via Egyptian Survey Authority',
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                _FeaturePill(
                   icon: Icons.map_outlined,
                   text: isArabic
                       ? 'تغطية شاملة لكافة محافظات ومدن مصر'
@@ -250,17 +266,10 @@ class _WelcomeStep extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 _FeaturePill(
-                  icon: Icons.security_rounded,
-                  text: isArabic
-                      ? 'خصوصية تامة واستخدام محلي على جهازك فقط'
-                      : '100% on-device processing and strict privacy',
-                ),
-                const SizedBox(height: AppSpacing.sm),
-                _FeaturePill(
                   icon: Icons.offline_bolt_outlined,
                   text: isArabic
                       ? 'دعم كامل للعمل بدون اتصال بالإنترنت'
-                      : 'Robust offline caching support',
+                      : 'Robust offline caching & local calculations',
                 ),
               ],
             ),

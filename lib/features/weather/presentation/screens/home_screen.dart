@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -17,26 +18,42 @@ import 'package:taqs/features/advisor/presentation/widgets/what_to_wear_card.dar
 import 'package:taqs/features/air_quality/presentation/widgets/air_quality_card.dart';
 import 'package:taqs/features/alerts/domain/services/egypt_alert_evaluator.dart';
 import 'package:taqs/features/alerts/presentation/widgets/severe_weather_alert_card.dart';
+import 'package:taqs/features/prayer/presentation/screens/prayer_section_view.dart';
+import 'package:taqs/features/weather/presentation/controllers/home_tab_controller.dart';
 import 'package:taqs/features/weather/presentation/providers/weather_provider.dart';
 import 'package:taqs/features/weather/presentation/widgets/current_weather_card.dart';
 import 'package:taqs/features/weather/presentation/widgets/daily_forecast_list.dart';
+import 'package:taqs/features/weather/presentation/widgets/home_segmented_header.dart';
 import 'package:taqs/features/weather/presentation/widgets/hourly_temperature_chart.dart';
 import 'package:taqs/features/weather/presentation/widgets/offline_data_banner.dart';
 import 'package:taqs/features/weather/presentation/widgets/sunrise_sunset_arc.dart';
 import 'package:taqs/features/weather/presentation/widgets/weather_details_grid.dart';
 import 'package:taqs/l10n/app_localizations.dart';
 
-/// Luxury Home screen featuring dynamic atmospheric multi-stop gradient background,
-/// hero weather artwork, continuous temperature curve, solar arc, and details grid.
+/// Luxury Home screen combining Weather & Prayer Times via a segmented header switch.
 class HomeScreen extends ConsumerWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({
+    this.initialTab,
+    super.key,
+  });
+
+  final HomeTab? initialTab;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (initialTab != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        unawaited(
+          ref.read(homeTabControllerProvider.notifier).setTab(initialTab!),
+        );
+      });
+    }
+
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context);
     final isArabic = locale.languageCode == 'ar';
     final weatherState = ref.watch(weatherViewModelProvider);
+    final selectedTab = ref.watch(homeTabControllerProvider);
 
     return weatherState.when(
       loading: () => Scaffold(
@@ -105,112 +122,150 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ],
             ),
-            body: RefreshIndicator(
-              color: AppColors.cyanAccent,
-              backgroundColor: AppColors.darkSurface,
-              onRefresh: () =>
-                  ref.read(weatherViewModelProvider.notifier).refresh(),
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 680),
-                  child: ListView(
-                    physics: const AlwaysScrollableScrollPhysics(
-                      parent: BouncingScrollPhysics(),
+            body: Column(
+              children: [
+                // Segmented Switch Header: Weather vs Prayer Times
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg,
+                    vertical: AppSpacing.xs,
+                  ),
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 680),
+                      child: HomeSegmentedHeader(
+                        selectedTab: selectedTab,
+                        onTabChanged: (tab) =>
+                            unawaited(ref.read(homeTabControllerProvider.notifier).setTab(tab)),
+                        isArabic: isArabic,
+                      ),
                     ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.lg,
-                      vertical: AppSpacing.sm,
-                    ),
-                    children: [
-                      // Offline Stale Banner if data is served from local cache
-                      if (bundle.isFromCache)
-                        OfflineDataBanner(
-                          fetchedAt: bundle.fetchedAt,
-                          onRefresh: () => ref
-                              .read(weatherViewModelProvider.notifier)
-                              .refresh(),
-                        ),
-
-                      // Non-intrusive missing permission recovery banner
-                      const PermissionRecoveryBanner(),
-
-                      // Severe Weather Alerts if triggered
-                      if (alerts.isNotEmpty) ...[
-                        ...alerts.map(
-                          (alert) => Padding(
-                            padding:
-                                const EdgeInsets.only(bottom: AppSpacing.md),
-                            child: SevereWeatherAlertCard(
-                              alert: alert,
-                              isArabic: isArabic,
-                            ),
-                          ),
-                        ),
-                      ],
-
-                      // 1. Hero Weather Card with Artwork & Tabular Figures
-                      CurrentWeatherCard(
-                        weather: bundle.current,
-                        isArabic: isArabic,
-                        onLocationTap: () =>
-                            context.push(AppRoutes.locationSearch),
-                      ),
-                      const SizedBox(height: AppSpacing.lg),
-
-                      // 2. Continuous 24-Hour Temperature Curve Chart
-                      HourlyTemperatureChart(hourly: bundle.hourly),
-                      const SizedBox(height: AppSpacing.lg),
-
-                      // 3. 7-Day Forecast with Horizontal Range Bars
-                      SectionHeader(
-                        title: l10n.weeklyForecastTitle,
-                      ),
-                      const SizedBox(height: AppSpacing.xs),
-                      DailyForecastList(
-                        daily: bundle.daily,
-                        isArabic: isArabic,
-                      ),
-                      const SizedBox(height: AppSpacing.lg),
-
-                      // 4. Six-Tile Meteorological Details Grid
-                      SectionHeader(
-                        title: isArabic ? 'تفاصيل الطقس' : 'Weather Details',
-                      ),
-                      const SizedBox(height: AppSpacing.xs),
-                      WeatherDetailsGrid(
-                        weather: bundle.current,
-                        isArabic: isArabic,
-                      ),
-                      const SizedBox(height: AppSpacing.lg),
-
-                      // 5. Celestial Solar Arc
-                      SunriseSunsetArc(
-                        sunriseTime: bundle.current.sunriseTime,
-                        sunsetTime: bundle.current.sunsetTime,
-                        isArabic: isArabic,
-                      ),
-                      const SizedBox(height: AppSpacing.lg),
-
-                      // 6. What To Wear Today Smart Advice
-                      WhatToWearCard(
-                        advice: clothingAdvice,
-                        isArabic: isArabic,
-                      ),
-                      const SizedBox(height: AppSpacing.lg),
-
-                      // 7. Air Quality Index Card (if available)
-                      if (bundle.airQuality != null) ...[
-                        AirQualityCard(
-                          airQuality: bundle.airQuality!,
-                          isArabic: isArabic,
-                        ),
-                        const SizedBox(height: AppSpacing.xl),
-                      ] else
-                        const SizedBox(height: AppSpacing.md),
-                    ],
                   ),
                 ),
-              ),
+
+                // Content View (Weather or Prayer Times)
+                Expanded(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 250),
+                    switchInCurve: Curves.easeOutCubic,
+                    switchOutCurve: Curves.easeInCubic,
+                    child: selectedTab == HomeTab.weather
+                        ? RefreshIndicator(
+                            key: const ValueKey('weather_section'),
+                            color: AppColors.cyanAccent,
+                            backgroundColor: AppColors.darkSurface,
+                            onRefresh: () => ref
+                                .read(weatherViewModelProvider.notifier)
+                                .refresh(),
+                      child: Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 680),
+                          child: ListView(
+                            physics: const AlwaysScrollableScrollPhysics(
+                              parent: BouncingScrollPhysics(),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.lg,
+                              vertical: AppSpacing.sm,
+                            ),
+                            children: [
+                              // Offline Stale Banner if data is served from local cache
+                              if (bundle.isFromCache)
+                                OfflineDataBanner(
+                                  fetchedAt: bundle.fetchedAt,
+                                  onRefresh: () => ref
+                                      .read(weatherViewModelProvider.notifier)
+                                      .refresh(),
+                                ),
+
+                              // Non-intrusive missing permission recovery banner
+                              const PermissionRecoveryBanner(),
+
+                              // Severe Weather Alerts if triggered
+                              if (alerts.isNotEmpty) ...[
+                                ...alerts.map(
+                                  (alert) => Padding(
+                                    padding: const EdgeInsets.only(
+                                      bottom: AppSpacing.md,
+                                    ),
+                                    child: SevereWeatherAlertCard(
+                                      alert: alert,
+                                      isArabic: isArabic,
+                                    ),
+                                  ),
+                                ),
+                              ],
+
+                              // 1. Hero Weather Card with Artwork & Tabular Figures
+                              CurrentWeatherCard(
+                                weather: bundle.current,
+                                isArabic: isArabic,
+                                onLocationTap: () =>
+                                    context.push(AppRoutes.locationSearch),
+                              ),
+                              const SizedBox(height: AppSpacing.lg),
+
+                              // 2. Smart Outfit Recommendation Card
+                              WhatToWearCard(
+                                advice: clothingAdvice,
+                                isArabic: isArabic,
+                              ),
+                              const SizedBox(height: AppSpacing.lg),
+
+                              // 3. Air Quality Index Card
+                              if (bundle.airQuality != null) ...[
+                                AirQualityCard(
+                                  airQuality: bundle.airQuality!,
+                                  isArabic: isArabic,
+                                ),
+                                const SizedBox(height: AppSpacing.lg),
+                              ],
+
+                              // 4. Continuous 24-Hour Temperature Curve Chart
+                              HourlyTemperatureChart(hourly: bundle.hourly),
+                              const SizedBox(height: AppSpacing.lg),
+
+                              // 5. 7-Day Forecast with Horizontal Range Bars
+                              SectionHeader(
+                                title: l10n.weeklyForecastTitle,
+                              ),
+                              const SizedBox(height: AppSpacing.xs),
+                              DailyForecastList(
+                                daily: bundle.daily,
+                                isArabic: isArabic,
+                              ),
+                              const SizedBox(height: AppSpacing.lg),
+
+                              // 6. Six-Tile Meteorological Details Grid
+                              SectionHeader(
+                                title: isArabic ? 'تفاصيل الطقس' : 'Weather Details',
+                              ),
+                              const SizedBox(height: AppSpacing.xs),
+                              WeatherDetailsGrid(
+                                weather: bundle.current,
+                                isArabic: isArabic,
+                              ),
+                              const SizedBox(height: AppSpacing.lg),
+
+                              // 7. Celestial Solar Arc
+                              SunriseSunsetArc(
+                                sunriseTime: bundle.current.sunriseTime,
+                                sunsetTime: bundle.current.sunsetTime,
+                                isArabic: isArabic,
+                              ),
+                              const SizedBox(height: AppSpacing.xl),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  : PrayerSectionView(
+                      key: const ValueKey('prayer_section'),
+                      isArabic: isArabic,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         );

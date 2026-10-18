@@ -8,6 +8,7 @@ import 'package:taqs/features/location/presentation/screens/location_search_scre
 import 'package:taqs/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:taqs/features/settings/presentation/screens/settings_screen.dart';
 import 'package:taqs/features/splash/presentation/screens/splash_screen.dart';
+import 'package:taqs/features/weather/presentation/controllers/home_tab_controller.dart';
 import 'package:taqs/features/weather/presentation/screens/home_screen.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -42,7 +43,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: AppRoutes.home,
-                builder: (context, state) => const HomeScreen(),
+                builder: (context, state) {
+                  final tab = state.uri.queryParameters['tab'];
+                  return HomeScreen(
+                    initialTab: tab == 'prayer' ? HomeTab.prayer : null,
+                  );
+                },
+              ),
+              GoRoute(
+                path: AppRoutes.prayer,
+                redirect: (context, state) => '${AppRoutes.home}?tab=prayer',
               ),
             ],
           ),
