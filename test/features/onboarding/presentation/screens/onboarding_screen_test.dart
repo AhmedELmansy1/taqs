@@ -76,7 +76,7 @@ void main() {
           overrides: [
             keyValueStorageProvider.overrideWithValue(fakeStorage),
             locationServiceProvider.overrideWithValue(_MockLocationService()),
-            locationControllerProvider.overrideWith(() => _DeniedLocationController()),
+            locationControllerProvider.overrideWith(_DeniedLocationController.new),
           ],
           child: const Scaffold(
             body: PermissionRecoveryBanner(),

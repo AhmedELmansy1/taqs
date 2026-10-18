@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taqs/core/constants/app_constants.dart';
 import 'package:taqs/core/notifications/notification_service.dart';
+import 'package:taqs/core/notifications/weather_background_worker.dart';
 import 'package:taqs/core/storage/key_value_storage.dart';
 import 'package:taqs/core/storage/storage_providers.dart';
 
@@ -79,6 +80,9 @@ class NotificationSettingsController
     if (enabled) {
       final granted = await _notificationService.requestPermission();
       if (!granted) return;
+      await ref.read(weatherBackgroundWorkerProvider).schedule12HourBriefing();
+    } else {
+      await ref.read(weatherBackgroundWorkerProvider).cancel12HourBriefing();
     }
 
     state = state.copyWith(dailyBriefingEnabled: enabled);

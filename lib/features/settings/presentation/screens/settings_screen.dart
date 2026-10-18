@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:taqs/core/design/components/app_card.dart';
@@ -9,8 +10,12 @@ import 'package:taqs/core/design/tokens/app_radius.dart';
 import 'package:taqs/core/design/tokens/app_spacing.dart';
 import 'package:taqs/core/localization/locale_controller.dart';
 import 'package:taqs/core/navigation/app_routes.dart';
+import 'package:taqs/core/notifications/notification_service.dart';
 import 'package:taqs/core/notifications/notification_settings_controller.dart';
 import 'package:taqs/core/theme/theme_controller.dart';
+import 'package:taqs/features/weather/domain/entities/weather_condition.dart';
+import 'package:taqs/features/weather/domain/entities/weather_entities.dart';
+import 'package:taqs/features/weather/presentation/providers/weather_provider.dart';
 import 'package:taqs/l10n/app_localizations.dart';
 
 /// Settings screen managing theme preferences, language, and app information.
@@ -25,6 +30,7 @@ class SettingsScreen extends ConsumerWidget {
 
     final currentThemeMode = ref.watch(themeControllerProvider);
     final currentLocale = ref.watch(localeControllerProvider);
+    final isArabic = currentLocale.languageCode == 'ar';
     final notificationSettings =
         ref.watch(notificationSettingsControllerProvider);
 
@@ -245,6 +251,99 @@ class SettingsScreen extends ConsumerWidget {
                                 .setDailyBriefingEnabled(enabled: val),
                           );
                         },
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 44),
+                        side: const BorderSide(color: AppColors.cyanAccent),
+                        foregroundColor: AppColors.cyanAccent,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: AppRadius.borderMd,
+                        ),
+                      ),
+                      icon: const Icon(Icons.send_rounded, size: 16),
+                      label: Text(
+                        isArabic
+                            ? 'إرسال إشعار تجريبي الآن'
+                            : 'Send test notification now',
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      onPressed: () async {
+                        unawaited(HapticFeedback.lightImpact());
+                        final weather =
+                            ref.read(weatherViewModelProvider).value;
+                        final current = weather?.current ??
+                            const CurrentWeather(
+                              temperature: 28,
+                              feelsLike: 29,
+                              cityNameAr: 'القاهرة',
+                              cityNameEn: 'Cairo',
+                              condition: WeatherCondition.sunny,
+                              humidityPercentage: 45,
+                              windSpeedKmh: 18,
+                              uvIndex: 6,
+                            );
+                        await ref
+                            .read(notificationServiceProvider)
+                            .showDailyBriefingNotification(
+                              current,
+                              isArabic: isArabic,
+                            );
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                isArabic
+                                    ? 'تم إرسال إشعار تجريبي بنجاح'
+                                    : 'Test notification sent successfully',
+                              ),
+                              duration: const Duration(seconds: 2),
+                              behavior: SnackBarBehavior.floating,
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    Container(
+                      padding: const EdgeInsets.all(AppSpacing.sm + 2),
+                      decoration: BoxDecoration(
+                        color: isDark
+                            ? AppColors.darkSurfaceHover.withValues(alpha: 0.4)
+                            : AppColors.lightSurfaceElevated,
+                        borderRadius: AppRadius.borderSm,
+                        border: Border.all(
+                          color: isDark
+                              ? AppColors.darkBorderSubtle
+                              : AppColors.lightBorderSubtle,
+                        ),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            Icons.info_outline_rounded,
+                            size: 16,
+                            color: AppColors.cyanAccent,
+                          ),
+                          const SizedBox(width: AppSpacing.xs),
+                          Expanded(
+                            child: Text(
+                              isArabic
+                                  ? 'تنويه: توقيت الإشعارات في الخلفية يخضع لتحسينات بطارية أندرويد (Doze Mode) وقيود نظام iOS لتوفير الطاقة.'
+                                  : 'Note: Background notification timing is approximate due to Android Doze optimizations and iOS background execution limits.',
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                color: isDark
+                                    ? AppColors.darkTextMuted
+                                    : AppColors.lightTextMuted,
+                                fontSize: 10,
+                                height: 1.4,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
