@@ -4,11 +4,12 @@ import 'package:taqs/features/weather/domain/entities/weather_condition.dart';
 
 void main() {
   group('OpenMeteoForecastDto', () {
+    final now = DateTime.now();
     final sampleJson = {
       'latitude': 30.0444,
       'longitude': 31.2357,
       'current': {
-        'time': '2026-10-07T12:00',
+        'time': now.toIso8601String().substring(0, 16),
         'temperature_2m': 28.6,
         'relative_humidity_2m': 45.0,
         'apparent_temperature': 30.1,
@@ -20,21 +21,16 @@ void main() {
       'hourly': {
         'time': List.generate(
           48,
-          (i) => '2026-10-07T${i.toString().padLeft(2, '0')}:00',
+          (i) => now.add(Duration(hours: i)).toIso8601String().substring(0, 16),
         ),
         'temperature_2m': List.generate(48, (i) => 25.0 + (i % 5)),
         'weather_code': List.generate(48, (i) => (i % 3 == 0) ? 0 : 2),
       },
       'daily': {
-        'time': [
-          '2026-10-07',
-          '2026-10-08',
-          '2026-10-09',
-          '2026-10-10',
-          '2026-10-11',
-          '2026-10-12',
-          '2026-10-13',
-        ],
+        'time': List.generate(
+          7,
+          (i) => now.add(Duration(days: i)).toIso8601String().split('T').first,
+        ),
         'weather_code': [0, 1, 2, 3, 45, 61, 95],
         'temperature_2m_max': [30.0, 31.0, 32.0, 29.0, 28.0, 27.0, 26.0],
         'temperature_2m_min': [20.0, 21.0, 21.0, 19.0, 18.0, 18.0, 17.0],

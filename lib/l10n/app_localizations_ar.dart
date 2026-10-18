@@ -266,4 +266,30 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get windUnitMs => 'م/ث (Meters per second)';
+
+  @override
+  String get notificationsSection => 'الإشعارات';
+
+  @override
+  String get severeAlertsToggle => 'تنبيهات الطقس الحرج (الخماسين والشبورة)';
+
+  @override
+  String get severeAlertsSubtitle =>
+      'إشعارات استباقية بالتقلبات الجوية الشديدة والعواصف';
+
+  @override
+  String get dailyBriefingToggle => 'الملخص اليومي الصباحي';
+
+  @override
+  String get dailyBriefingSubtitle =>
+      'إشعار يومي بدرجات الحرارة ونصائح الملابس المناسبة';
+
+  @override
+  String get whatToWearTitle => 'ماذا أرتدي اليوم؟';
+
+  @override
+  String get safetyTipsTitle => 'إرشادات السلامة الوقائية:';
+
+  @override
+  String get dustMetric => 'الغبار';
 }

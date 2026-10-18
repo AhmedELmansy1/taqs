@@ -571,6 +571,54 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'م/ث (Meters per second)'**
   String get windUnitMs;
+
+  /// عنوان قسم الإشعارات في الإعدادات
+  ///
+  /// In ar, this message translates to:
+  /// **'الإشعارات'**
+  String get notificationsSection;
+
+  /// خيار تنبيهات الطقس الحرج
+  ///
+  /// In ar, this message translates to:
+  /// **'تنبيهات الطقس الحرج (الخماسين والشبورة)'**
+  String get severeAlertsToggle;
+
+  /// وصف خيار تنبيهات الطقس الحرج
+  ///
+  /// In ar, this message translates to:
+  /// **'إشعارات استباقية بالتقلبات الجوية الشديدة والعواصف'**
+  String get severeAlertsSubtitle;
+
+  /// خيار الملخص اليومي الصباحي
+  ///
+  /// In ar, this message translates to:
+  /// **'الملخص اليومي الصباحي'**
+  String get dailyBriefingToggle;
+
+  /// وصف خيار الملخص اليومي الصباحي
+  ///
+  /// In ar, this message translates to:
+  /// **'إشعار يومي بدرجات الحرارة ونصائح الملابس المناسبة'**
+  String get dailyBriefingSubtitle;
+
+  /// عنوان بطاقة نصائح الملابس
+  ///
+  /// In ar, this message translates to:
+  /// **'ماذا أرتدي اليوم؟'**
+  String get whatToWearTitle;
+
+  /// عنوان إرشادات السلامة في بطاقة التنبيهات
+  ///
+  /// In ar, this message translates to:
+  /// **'إرشادات السلامة الوقائية:'**
+  String get safetyTipsTitle;
+
+  /// تسمية نسبة الغبار المحمولة جوا
+  ///
+  /// In ar, this message translates to:
+  /// **'الغبار'**
+  String get dustMetric;
 }
 
 class _AppLocalizationsDelegate

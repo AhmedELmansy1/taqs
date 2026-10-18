@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:taqs/features/weather/presentation/screens/home_screen.dart';
 import 'package:taqs/features/weather/presentation/widgets/current_weather_card.dart';
@@ -9,6 +10,13 @@ void main() {
   group('HomeScreen', () {
     testWidgets('renders skeleton layout with current, hourly, and weekly sections',
         (tester) async {
+      tester.view.physicalSize = const Size(800, 1600);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
       await tester.pumpApp(
         const HomeScreen(),
       );

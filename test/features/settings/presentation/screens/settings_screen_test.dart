@@ -5,8 +5,15 @@ import '../../../../helpers/pump_app.dart';
 
 void main() {
   group('SettingsScreen', () {
-    testWidgets('renders appearance, language, and about navigation tiles',
+    testWidgets('renders appearance, language, notifications, and about navigation tiles',
         (tester) async {
+      tester.view.physicalSize = const Size(800, 1400);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
       await tester.pumpApp(
         const SettingsScreen(),
       );
@@ -15,6 +22,7 @@ void main() {
       // Check section titles
       expect(find.text('المظهر والعرض'), findsOneWidget);
       expect(find.text('اللغة والمنطقة'), findsOneWidget);
+      expect(find.text('الإشعارات'), findsOneWidget);
       expect(find.text('عن التطبيق'), findsOneWidget);
 
       // Check Theme Mode segmented button segments
@@ -23,6 +31,10 @@ void main() {
       // Check Language Options
       expect(find.text('العربية (Arabic)'), findsOneWidget);
       expect(find.text('الإنجليزية (English)'), findsOneWidget);
+
+      // Check Notification Toggles
+      expect(find.text('تنبيهات الطقس الحرج (الخماسين والشبورة)'), findsOneWidget);
+      expect(find.text('الملخص اليومي الصباحي'), findsOneWidget);
 
       // Check About Developer tile
       expect(find.text('عن المطور'), findsOneWidget);

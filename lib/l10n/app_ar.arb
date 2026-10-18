@@ -355,5 +355,37 @@
   "windUnitMs": "م/ث (Meters per second)",
   "@windUnitMs": {
     "description": "وحدة م/ث"
+  },
+  "notificationsSection": "الإشعارات",
+  "@notificationsSection": {
+    "description": "عنوان قسم الإشعارات في الإعدادات"
+  },
+  "severeAlertsToggle": "تنبيهات الطقس الحرج (الخماسين والشبورة)",
+  "@severeAlertsToggle": {
+    "description": "خيار تنبيهات الطقس الحرج"
+  },
+  "severeAlertsSubtitle": "إشعارات استباقية بالتقلبات الجوية الشديدة والعواصف",
+  "@severeAlertsSubtitle": {
+    "description": "وصف خيار تنبيهات الطقس الحرج"
+  },
+  "dailyBriefingToggle": "الملخص اليومي الصباحي",
+  "@dailyBriefingToggle": {
+    "description": "خيار الملخص اليومي الصباحي"
+  },
+  "dailyBriefingSubtitle": "إشعار يومي بدرجات الحرارة ونصائح الملابس المناسبة",
+  "@dailyBriefingSubtitle": {
+    "description": "وصف خيار الملخص اليومي الصباحي"
+  },
+  "whatToWearTitle": "ماذا أرتدي اليوم؟",
+  "@whatToWearTitle": {
+    "description": "عنوان بطاقة نصائح الملابس"
+  },
+  "safetyTipsTitle": "إرشادات السلامة الوقائية:",
+  "@safetyTipsTitle": {
+    "description": "عنوان إرشادات السلامة في بطاقة التنبيهات"
+  },
+  "dustMetric": "الغبار",
+  "@dustMetric": {
+    "description": "تسمية نسبة الغبار المحمولة جوا"
   }
 }

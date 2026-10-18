@@ -26,11 +26,12 @@ While global weather apps treat the Middle East as an afterthought, **طقس (Ta
 - [x] **Offline Caching & Stale-While-Revalidate**: Instant display of cached weather snapshots, background network synchronization, and non-intrusive offline banners ("Last updated X ago") when network is down.
 - [x] **Attribution & Transparency**: Prominent attribution to Open-Meteo in Settings, About, and documentation.
 
-### Phase 3 Roadmap — Next Up ⏳
-- [ ] **Egypt-Specific Severe Alerts**: Early warning indicators for dust storms (الخماسين), dense morning highway fog (الشبورة المائية), heat waves, and localized torrential rain.
-- [ ] **"What Should I Wear?" Advisor**: Contextual daily clothing recommendations tailored to Egypt's climate and humidity.
-- [ ] **Air Quality Index (AQI)**: Particulate matter monitoring (PM2.5 / PM10) for Egyptian industrial and desert corridors.
-- [ ] **Local Notifications & Home Screen Widget**: Morning digest notifications and glanceable Android/iOS home widgets.
+### Phase 3 (Severe Alerts, Smart Advisor, Air Quality & Notifications) — Completed ✅
+- [x] **Egypt-Specific Severe Alerts**: Contextual hazard engine (`EgyptAlertEvaluator`) detecting dust storms (الخماسين), dense morning highway fog (الشبورة المائية), extreme heatwaves (38°C+), and torrential rain with expandable safety guidance.
+- [x] **"What to Wear Today?" Smart Advisor (ماذا أرتدي اليوم؟)**: Real-time outfit recommendation engine (`ClothingAdvisor`) mapping temperatures to seasonal attire, rain accessories (umbrella/waterproof shoes), and dust storm protective gear (masks & eyewear).
+- [x] **Air Quality Index (AQI)**: Integration with Open-Meteo Air Quality API (`OpenMeteoAirQualityDataSource`) monitoring European AQI (EAQI), PM2.5, PM10, and atmospheric desert dust with localized health advice.
+- [x] **On-Device Notifications & Settings**: `NotificationService` powered by `flutter_local_notifications` with channels for severe hazard alerts and morning briefings, paired with toggles in Settings.
+- [x] **Full Internationalization & Rigorous Testing**: 57 passing tests (unit, widget, integration) with zero analyzer issues.
 
 ---
 
@@ -41,46 +42,47 @@ The codebase follows **Feature-First Clean Architecture** with **MVVM** in prese
 ```mermaid
 graph TD
     subgraph UI ["Presentation Layer"]
-        Screen["Screen / Widget"]
+        Screen["HomeScreen / SettingsScreen"]
+        AlertCard["SevereWeatherAlertCard"]
+        WearCard["WhatToWearCard"]
+        AqiCard["AirQualityCard"]
         VM["WeatherViewModel (AsyncNotifier)"]
-        LocCtrl["LocationController (Notifier)"]
     end
 
     subgraph Domain ["Domain Layer"]
+        AlertEval["EgyptAlertEvaluator"]
+        WearAdv["ClothingAdvisor"]
+        WeatherBundle["WeatherBundle (with AirQuality)"]
         Contract["WeatherRepository Contract"]
-        Entity["Domain Entities (CurrentWeather, WeatherBundle, LocationItem)"]
     end
 
     subgraph Data ["Data Layer"]
         RepoImpl["OpenMeteoWeatherRepository"]
         Cache["KeyValueWeatherCache (Offline Cache)"]
         RemoteSource["OpenMeteoRemoteDataSource"]
-        GeoSource["OpenMeteoGeocodingDataSource"]
+        AqiSource["OpenMeteoAirQualityDataSource"]
     end
 
     subgraph Core ["Technical Infrastructure"]
         HttpClient["AppHttpClient (HTTPS, Timeouts, Retry Backoff)"]
-        LocationSvc["LocationService (Geolocator)"]
+        NotifSvc["NotificationService (flutter_local_notifications)"]
         Storage["KeyValueStorage (SharedPreferences)"]
         Router["GoRouter (StatefulShellRoute)"]
-        Design["Design Tokens & Widgets"]
     end
 
+    Screen --> AlertCard
+    Screen --> WearCard
+    Screen --> AqiCard
     Screen --> VM
-    Screen --> LocCtrl
     VM --> Contract
-    VM --> LocCtrl
-    Contract --> Entity
+    Contract --> WeatherBundle
     RepoImpl -. implements .-> Contract
     RepoImpl --> RemoteSource
+    RepoImpl --> AqiSource
     RepoImpl --> Cache
     RemoteSource --> HttpClient
-    GeoSource --> HttpClient
+    AqiSource --> HttpClient
     Cache --> Storage
-    LocCtrl --> LocationSvc
-    LocCtrl --> Storage
-    Screen --> Router
-    Screen --> Design
 ```
 
 ### Folder Layout
@@ -96,13 +98,17 @@ lib/
 │   ├── localization/          # LocaleController & language switching
 │   ├── navigation/            # GoRouter configuration & shell navigation
 │   ├── network/               # AppHttpClient (timeouts, retry backoff, HTTPS)
+│   ├── notifications/         # NotificationService & NotificationSettingsController
 │   ├── permissions/           # LocationService contract & Geolocator implementation
 │   ├── storage/               # KeyValueStorage contracts & implementations
 │   └── theme/                 # ThemeController (Light / Dark / System)
 └── features/
     ├── about/                 # Developer profile presentation & model
+    ├── advisor/               # What to wear clothing advice engine & cards
+    ├── air_quality/           # EAQI, PM2.5, PM10, dust entity, DTO & presentation
+    ├── alerts/                # Severe weather alert engine & expandable card
     ├── location/              # LocationItem, Geocoding DTO, Governorates & Controller
-    ├── settings/              # Appearance, language preferences & attribution
+    ├── settings/              # Appearance, notifications, language & attribution
     ├── splash/                # Initial boot & splash screen
     └── weather/               # Domain entities, repo contracts, cache, DTOs, widgets
 ```
@@ -115,12 +121,13 @@ lib/
 - **State Management**: [flutter_riverpod 3.4.3](https://pub.dev/packages/flutter_riverpod)
 - **Routing**: [go_router 18.0.2](https://pub.dev/packages/go_router)
 - **Networking**: `http 1.6.0` with custom retry backoff & timeout client
+- **Notifications**: `flutter_local_notifications 22.3.2`
 - **Location & Permissions**: `geolocator 14.1.1`
 - **Storage**: [shared_preferences 2.5.6](https://pub.dev/packages/shared_preferences)
 - **Internationalization**: `flutter_localizations` & `intl 0.20.3`
 - **Typography & Icons**: Cairo font family & Cupertino/Material icons
 - **Utilities**: `url_launcher 6.3.3`, `package_info_plus 10.2.2`
-- **Analysis & Testing**: `very_good_analysis 11.0.0`, `mocktail 1.0.5`, `flutter_test` (34 passing unit/widget tests)
+- **Analysis & Testing**: `very_good_analysis 11.0.0`, `mocktail 1.0.5`, `flutter_test` (57 passing unit & widget tests)
 
 ---
 

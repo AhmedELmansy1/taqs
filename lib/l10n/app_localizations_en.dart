@@ -268,4 +268,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get windUnitMs => 'm/s (Meters per second)';
+
+  @override
+  String get notificationsSection => 'Notifications';
+
+  @override
+  String get severeAlertsToggle => 'Severe Weather Warnings (Khamsin & Fog)';
+
+  @override
+  String get severeAlertsSubtitle =>
+      'Early warnings for severe storms, dust and dense fog';
+
+  @override
+  String get dailyBriefingToggle => 'Daily Morning Briefing';
+
+  @override
+  String get dailyBriefingSubtitle =>
+      'Daily summary of weather conditions and clothing advice';
+
+  @override
+  String get whatToWearTitle => 'What to wear today?';
+
+  @override
+  String get safetyTipsTitle => 'Safety Guidance:';
+
+  @override
+  String get dustMetric => 'Dust';
 }

@@ -355,5 +355,37 @@
   "windUnitMs": "m/s (Meters per second)",
   "@windUnitMs": {
     "description": "m/s option"
+  },
+  "notificationsSection": "Notifications",
+  "@notificationsSection": {
+    "description": "Notifications section title in settings"
+  },
+  "severeAlertsToggle": "Severe Weather Warnings (Khamsin & Fog)",
+  "@severeAlertsToggle": {
+    "description": "Severe weather alerts toggle title"
+  },
+  "severeAlertsSubtitle": "Early warnings for severe storms, dust and dense fog",
+  "@severeAlertsSubtitle": {
+    "description": "Severe weather alerts toggle subtitle"
+  },
+  "dailyBriefingToggle": "Daily Morning Briefing",
+  "@dailyBriefingToggle": {
+    "description": "Daily briefing toggle title"
+  },
+  "dailyBriefingSubtitle": "Daily summary of weather conditions and clothing advice",
+  "@dailyBriefingSubtitle": {
+    "description": "Daily briefing toggle subtitle"
+  },
+  "whatToWearTitle": "What to wear today?",
+  "@whatToWearTitle": {
+    "description": "What to wear card title"
+  },
+  "safetyTipsTitle": "Safety Guidance:",
+  "@safetyTipsTitle": {
+    "description": "Safety guidance header in alert card"
+  },
+  "dustMetric": "Dust",
+  "@dustMetric": {
+    "description": "Dust particulate metric label"
   }
 }

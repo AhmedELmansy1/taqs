@@ -9,6 +9,7 @@ import 'package:taqs/core/design/tokens/app_radius.dart';
 import 'package:taqs/core/design/tokens/app_spacing.dart';
 import 'package:taqs/core/localization/locale_controller.dart';
 import 'package:taqs/core/navigation/app_routes.dart';
+import 'package:taqs/core/notifications/notification_settings_controller.dart';
 import 'package:taqs/core/theme/theme_controller.dart';
 import 'package:taqs/l10n/app_localizations.dart';
 
@@ -24,6 +25,8 @@ class SettingsScreen extends ConsumerWidget {
 
     final currentThemeMode = ref.watch(themeControllerProvider);
     final currentLocale = ref.watch(localeControllerProvider);
+    final notificationSettings =
+        ref.watch(notificationSettingsControllerProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -143,6 +146,106 @@ class SettingsScreen extends ConsumerWidget {
                               .setLocale(AppLocales.english),
                         );
                       },
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xl),
+
+              // --- Notifications Section ---
+              SectionHeader(title: l10n.notificationsSection),
+              const SizedBox(height: AppSpacing.xs),
+              AppCard(
+                child: Column(
+                  children: [
+                    Material(
+                      color: Colors.transparent,
+                      child: SwitchListTile.adaptive(
+                        contentPadding: EdgeInsets.zero,
+                        secondary: Container(
+                          padding: const EdgeInsets.all(AppSpacing.xs + 2),
+                          decoration: BoxDecoration(
+                            color: AppColors.metallicGold.withValues(alpha: 0.15),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.warning_amber_rounded,
+                            size: 20,
+                            color: AppColors.metallicGold,
+                          ),
+                        ),
+                        title: Text(
+                          l10n.severeAlertsToggle,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        subtitle: Text(
+                          l10n.severeAlertsSubtitle,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: isDark
+                                ? AppColors.darkTextSecondary
+                                : AppColors.lightTextSecondary,
+                          ),
+                        ),
+                        activeTrackColor: AppColors.cyanAccent,
+                        activeThumbColor: Colors.black,
+                        value: notificationSettings.severeAlertsEnabled,
+                        onChanged: (val) {
+                          unawaited(
+                            ref
+                                .read(
+                                  notificationSettingsControllerProvider.notifier,
+                                )
+                                .setSevereAlertsEnabled(enabled: val),
+                          );
+                        },
+                      ),
+                    ),
+                    const Divider(height: AppSpacing.md),
+                    Material(
+                      color: Colors.transparent,
+                      child: SwitchListTile.adaptive(
+                        contentPadding: EdgeInsets.zero,
+                        secondary: Container(
+                          padding: const EdgeInsets.all(AppSpacing.xs + 2),
+                          decoration: BoxDecoration(
+                            color: AppColors.cyanAccent.withValues(alpha: 0.15),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.wb_sunny_outlined,
+                            size: 20,
+                            color: AppColors.cyanAccent,
+                          ),
+                        ),
+                        title: Text(
+                          l10n.dailyBriefingToggle,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        subtitle: Text(
+                          l10n.dailyBriefingSubtitle,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: isDark
+                                ? AppColors.darkTextSecondary
+                                : AppColors.lightTextSecondary,
+                          ),
+                        ),
+                        activeTrackColor: AppColors.cyanAccent,
+                        activeThumbColor: Colors.black,
+                        value: notificationSettings.dailyBriefingEnabled,
+                        onChanged: (val) {
+                          unawaited(
+                            ref
+                                .read(
+                                  notificationSettingsControllerProvider.notifier,
+                                )
+                                .setDailyBriefingEnabled(enabled: val),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
