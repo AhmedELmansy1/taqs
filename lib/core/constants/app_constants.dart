@@ -10,6 +10,8 @@ abstract final class AppConstants {
   /// Primary storage keys for user preferences
   static const String themePreferenceKey = 'taqs_theme_mode_preference';
   static const String localePreferenceKey = 'taqs_locale_preference';
+  static const String severeAlertsNotificationKey = 'taqs_severe_alerts_notification';
+  static const String dailyBriefingNotificationKey = 'taqs_daily_briefing_notification';
 
   /// Default application location for Egypt weather foundation
   static const String defaultCityNameAr = 'القاهرة، مصر';
