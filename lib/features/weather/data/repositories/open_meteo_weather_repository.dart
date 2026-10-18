@@ -1,19 +1,23 @@
 import 'package:taqs/core/constants/app_constants.dart';
+import 'package:taqs/features/air_quality/data/data_sources/open_meteo_air_quality_data_source.dart';
+import 'package:taqs/features/air_quality/domain/entities/air_quality.dart';
 import 'package:taqs/features/weather/data/cache/weather_cache.dart';
 import 'package:taqs/features/weather/data/data_sources/open_meteo_remote_data_source.dart';
 import 'package:taqs/features/weather/domain/entities/weather_entities.dart';
 import 'package:taqs/features/weather/domain/repositories/weather_repository.dart';
 
 /// Production implementation of [WeatherRepository] consuming Open-Meteo
-/// with local offline caching and stale-while-revalidate fallbacks.
+/// with local offline caching, air quality enrichment and stale-while-revalidate fallbacks.
 class OpenMeteoWeatherRepository implements WeatherRepository {
   const OpenMeteoWeatherRepository({
     required this.remoteDataSource,
     required this.cache,
+    this.airQualityDataSource,
   });
 
   final OpenMeteoRemoteDataSource remoteDataSource;
   final WeatherCache cache;
+  final OpenMeteoAirQualityDataSource? airQualityDataSource;
 
   @override
   Future<WeatherBundle> getWeatherForLocation({
@@ -39,15 +43,30 @@ class OpenMeteoWeatherRepository implements WeatherRepository {
         longitude: longitude,
       );
 
-      final freshBundle = dto.toDomain(
-        cityNameAr: cityNameAr ??
-            cached?.bundle.current.cityNameAr ??
-            AppConstants.defaultCityNameAr,
-        cityNameEn: cityNameEn ??
-            cached?.bundle.current.cityNameEn ??
-            AppConstants.defaultCityNameEn,
-        fetchedAt: DateTime.now(),
-      );
+      AirQuality? airQuality;
+      if (airQualityDataSource != null) {
+        try {
+          final aqiDto = await airQualityDataSource!.getAirQuality(
+            latitude: latitude,
+            longitude: longitude,
+          );
+          airQuality = aqiDto.toDomain();
+        } on Object catch (_) {
+          airQuality = cached?.bundle.airQuality;
+        }
+      }
+
+      final freshBundle = dto
+          .toDomain(
+            cityNameAr: cityNameAr ??
+                cached?.bundle.current.cityNameAr ??
+                AppConstants.defaultCityNameAr,
+            cityNameEn: cityNameEn ??
+                cached?.bundle.current.cityNameEn ??
+                AppConstants.defaultCityNameEn,
+            fetchedAt: DateTime.now(),
+          )
+          .copyWith(airQuality: airQuality);
 
       // Persist to local cache
       await cache.saveWeather(

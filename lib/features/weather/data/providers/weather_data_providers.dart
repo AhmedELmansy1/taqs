@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:taqs/features/air_quality/data/data_sources/open_meteo_air_quality_data_source.dart';
 import 'package:taqs/features/weather/data/cache/weather_cache.dart';
 import 'package:taqs/features/weather/data/data_sources/open_meteo_remote_data_source.dart';
 import 'package:taqs/features/weather/data/repositories/mock_weather_repository.dart';
@@ -14,9 +15,11 @@ final mockWeatherRepositoryProvider = Provider<WeatherRepository>((ref) {
 /// Backed by production [OpenMeteoWeatherRepository] with offline caching.
 final weatherRepositoryProvider = Provider<WeatherRepository>((ref) {
   final remoteDataSource = ref.watch(openMeteoRemoteDataSourceProvider);
+  final airQualityDataSource = ref.watch(openMeteoAirQualityDataSourceProvider);
   final cache = ref.watch(weatherCacheProvider);
   return OpenMeteoWeatherRepository(
     remoteDataSource: remoteDataSource,
+    airQualityDataSource: airQualityDataSource,
     cache: cache,
   );
 });

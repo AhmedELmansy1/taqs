@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:taqs/features/air_quality/domain/entities/air_quality.dart';
 import 'package:taqs/features/weather/domain/entities/weather_condition.dart';
 
 /// Immutable domain entity representing current real-time weather status.
@@ -114,6 +115,7 @@ class WeatherBundle {
     required this.current,
     required this.hourly,
     required this.daily,
+    this.airQuality,
     this.fetchedAt,
     this.isFromCache = false,
   });
@@ -126,6 +128,9 @@ class WeatherBundle {
         daily: (json['daily'] as List<dynamic>)
             .map((e) => DailyForecast.fromJson(e as Map<String, dynamic>))
             .toList(),
+        airQuality: json['airQuality'] != null
+            ? AirQuality.fromJson(json['airQuality'] as Map<String, dynamic>)
+            : null,
         fetchedAt: json['fetchedAt'] != null
             ? DateTime.parse(json['fetchedAt'] as String)
             : null,
@@ -135,6 +140,7 @@ class WeatherBundle {
   final CurrentWeather current;
   final List<HourlyForecast> hourly;
   final List<DailyForecast> daily;
+  final AirQuality? airQuality;
   final DateTime? fetchedAt;
   final bool isFromCache;
 
@@ -142,6 +148,7 @@ class WeatherBundle {
     CurrentWeather? current,
     List<HourlyForecast>? hourly,
     List<DailyForecast>? daily,
+    AirQuality? airQuality,
     DateTime? fetchedAt,
     bool? isFromCache,
   }) {
@@ -149,6 +156,7 @@ class WeatherBundle {
       current: current ?? this.current,
       hourly: hourly ?? this.hourly,
       daily: daily ?? this.daily,
+      airQuality: airQuality ?? this.airQuality,
       fetchedAt: fetchedAt ?? this.fetchedAt,
       isFromCache: isFromCache ?? this.isFromCache,
     );
@@ -158,6 +166,7 @@ class WeatherBundle {
         'current': current.toJson(),
         'hourly': hourly.map((e) => e.toJson()).toList(),
         'daily': daily.map((e) => e.toJson()).toList(),
+        if (airQuality != null) 'airQuality': airQuality!.toJson(),
         if (fetchedAt != null) 'fetchedAt': fetchedAt!.toIso8601String(),
         'isFromCache': isFromCache,
       };
