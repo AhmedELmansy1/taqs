@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:taqs/core/navigation/app_routes.dart';
 import 'package:taqs/core/navigation/scaffold_with_nav_bar.dart';
 import 'package:taqs/features/about/presentation/screens/about_developer_screen.dart';
+import 'package:taqs/features/compare/presentation/screens/compare_governorates_screen.dart';
 import 'package:taqs/features/location/presentation/screens/location_search_screen.dart';
 import 'package:taqs/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:taqs/features/settings/presentation/screens/settings_screen.dart';
@@ -89,6 +90,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.onboarding,
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const OnboardingScreen(),
+      ),
+
+      // Compare Governorates Screen
+      GoRoute(
+        path: AppRoutes.compare,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const CompareGovernoratesScreen(),
       ),
     ],
   );

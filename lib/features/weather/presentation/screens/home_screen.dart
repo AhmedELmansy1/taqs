@@ -22,6 +22,7 @@ import 'package:taqs/features/driving/presentation/widgets/driving_safety_card.d
 import 'package:taqs/features/farming/presentation/widgets/farming_card.dart';
 import 'package:taqs/features/marine/presentation/providers/marine_provider.dart';
 import 'package:taqs/features/marine/presentation/widgets/marine_condition_card.dart';
+import 'package:taqs/features/prayer/presentation/providers/prayer_view_model.dart';
 import 'package:taqs/features/prayer/presentation/screens/prayer_section_view.dart';
 import 'package:taqs/features/weather/presentation/controllers/farmer_mode_controller.dart';
 import 'package:taqs/features/weather/presentation/controllers/home_tab_controller.dart';
@@ -33,6 +34,7 @@ import 'package:taqs/features/weather/presentation/widgets/hourly_temperature_ch
 import 'package:taqs/features/weather/presentation/widgets/offline_data_banner.dart';
 import 'package:taqs/features/weather/presentation/widgets/sunrise_sunset_arc.dart';
 import 'package:taqs/features/weather/presentation/widgets/weather_details_grid.dart';
+import 'package:taqs/features/weather/presentation/widgets/weather_share_card.dart';
 import 'package:taqs/l10n/app_localizations.dart';
 
 /// Luxury Home screen combining Weather & Prayer Times via a segmented header switch.
@@ -119,6 +121,32 @@ class HomeScreen extends ConsumerWidget {
                 ],
               ),
               actions: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.compare_arrows_rounded,
+                    color: AppColors.cyanAccent,
+                  ),
+                  tooltip: isArabic ? 'مقارنة المحافظات' : 'Compare Governorates',
+                  onPressed: () => context.push(AppRoutes.compare),
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.share_outlined,
+                    color: AppColors.cyanAccent,
+                  ),
+                  tooltip: isArabic ? 'مشاركة بطاقة الطقس' : 'Share Weather Card',
+                  onPressed: () {
+                    final prayerState = ref.read(prayerViewModelProvider);
+                    unawaited(
+                      WeatherShareModal.show(
+                        context,
+                        weather: bundle,
+                        isArabic: isArabic,
+                        prayerTimes: prayerState,
+                      ),
+                    );
+                  },
+                ),
                 IconButton(
                   icon: const Icon(
                     Icons.location_on_outlined,
