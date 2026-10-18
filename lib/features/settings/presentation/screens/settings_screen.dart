@@ -13,9 +13,11 @@ import 'package:taqs/core/navigation/app_routes.dart';
 import 'package:taqs/core/notifications/notification_service.dart';
 import 'package:taqs/core/notifications/notification_settings_controller.dart';
 import 'package:taqs/core/theme/theme_controller.dart';
+import 'package:taqs/features/prayer/presentation/widgets/prayer_settings_card.dart';
 import 'package:taqs/features/weather/domain/entities/weather_condition.dart';
 import 'package:taqs/features/weather/domain/entities/weather_entities.dart';
 import 'package:taqs/features/weather/presentation/providers/weather_provider.dart';
+import 'package:taqs/features/weather/presentation/widgets/farmer_mode_card.dart';
 import 'package:taqs/l10n/app_localizations.dart';
 
 /// Settings screen managing theme preferences, language, and app information.
@@ -349,6 +351,24 @@ class SettingsScreen extends ConsumerWidget {
                   ],
                 ),
               ),
+              const SizedBox(height: AppSpacing.xl),
+
+              // --- Prayer Times & Reminders Section ---
+              SectionHeader(
+                title: isArabic
+                    ? 'مواقيت الصلاة والتنبيهات'
+                    : 'Prayer Times & Reminders',
+              ),
+              const SizedBox(height: AppSpacing.xs),
+              PrayerSettingsCard(isArabic: isArabic),
+              const SizedBox(height: AppSpacing.xl),
+
+              // --- Smart Modes: Farmer Mode ---
+              SectionHeader(
+                title: isArabic ? 'الأنماط الذكية' : 'Smart Modes',
+              ),
+              const SizedBox(height: AppSpacing.xs),
+              FarmerModeCard(isArabic: isArabic),
               const SizedBox(height: AppSpacing.xl),
 
               // --- About Section ---

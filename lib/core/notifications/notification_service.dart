@@ -2,11 +2,15 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taqs/features/alerts/domain/entities/weather_alert.dart';
 import 'package:taqs/features/weather/domain/entities/weather_entities.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 /// Abstract contract for device local notifications.
 abstract interface class NotificationService {
   Future<void> initialize();
   Future<bool> requestPermission();
+  Future<bool> canScheduleExactAlarms();
+  Future<bool> requestExactAlarmsPermission();
   Future<void> showSevereAlertNotification(
     WeatherAlert alert, {
     bool isArabic = true,
@@ -15,6 +19,19 @@ abstract interface class NotificationService {
     CurrentWeather current, {
     bool isArabic = true,
   });
+  Future<void> scheduleZonedNotification({
+    required int id,
+    required String title,
+    required String body,
+    required DateTime scheduledDate,
+    required String channelId,
+    required String channelName,
+    String? channelDescription,
+    String? payload,
+    bool exact = true,
+  });
+  Future<void> showTestPrayerNotification({required bool isArabic});
+  Future<void> cancel(int id);
   Future<void> cancelAll();
 }
 
@@ -27,14 +44,21 @@ class LocalNotificationServiceImpl implements NotificationService {
   final FlutterLocalNotificationsPlugin _plugin;
   bool _initialized = false;
 
+  /// Global callback invoked when the user taps on any notification with a payload.
+  static void Function(String payload)? onNotificationTapped;
+
   static const String _alertChannelId = 'taqs_weather_alerts';
   static const String _alertChannelName = 'تحذيرات الطقس الحرج';
   static const String _briefingChannelId = 'taqs_daily_briefing';
   static const String _briefingChannelName = 'الملخص اليومي للطقس';
+  static const String _prayerChannelId = 'taqs_prayer_reminders';
+  static const String _prayerChannelName = 'تنبيهات مواقيت الصلاة';
 
   @override
   Future<void> initialize() async {
     if (_initialized) return;
+
+    tz.initializeTimeZones();
 
     const androidSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -45,7 +69,15 @@ class LocalNotificationServiceImpl implements NotificationService {
       iOS: darwinSettings,
     );
 
-    await _plugin.initialize(settings: settings);
+    await _plugin.initialize(
+      settings: settings,
+      onDidReceiveNotificationResponse: (response) {
+        final payload = response.payload;
+        if (payload != null && payload.isNotEmpty) {
+          onNotificationTapped?.call(payload);
+        }
+      },
+    );
     _initialized = true;
   }
 
@@ -70,6 +102,28 @@ class LocalNotificationServiceImpl implements NotificationService {
       return granted ?? false;
     }
 
+    return true;
+  }
+
+  @override
+  Future<bool> canScheduleExactAlarms() async {
+    final android = _plugin.resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>();
+    if (android != null) {
+      final can = await android.canScheduleExactNotifications();
+      return can ?? true;
+    }
+    return true;
+  }
+
+  @override
+  Future<bool> requestExactAlarmsPermission() async {
+    final android = _plugin.resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>();
+    if (android != null) {
+      final granted = await android.requestExactAlarmsPermission();
+      return granted ?? false;
+    }
     return true;
   }
 
@@ -138,6 +192,90 @@ class LocalNotificationServiceImpl implements NotificationService {
       body: body,
       notificationDetails: details,
     );
+  }
+
+  @override
+  Future<void> scheduleZonedNotification({
+    required int id,
+    required String title,
+    required String body,
+    required DateTime scheduledDate,
+    required String channelId,
+    required String channelName,
+    String? channelDescription,
+    String? payload,
+    bool exact = true,
+  }) async {
+    await initialize();
+
+    final tzScheduledDate = tz.TZDateTime.from(scheduledDate, tz.local);
+    final scheduleMode = exact
+        ? AndroidScheduleMode.exactAllowWhileIdle
+        : AndroidScheduleMode.inexactAllowWhileIdle;
+
+    final androidDetails = AndroidNotificationDetails(
+      channelId,
+      channelName,
+      channelDescription: channelDescription,
+      importance: Importance.max,
+      priority: Priority.high,
+      icon: '@mipmap/ic_launcher',
+    );
+    const darwinDetails = DarwinNotificationDetails();
+
+    final details = NotificationDetails(
+      android: androidDetails,
+      iOS: darwinDetails,
+    );
+
+    await _plugin.zonedSchedule(
+      id: id,
+      title: title,
+      body: body,
+      scheduledDate: tzScheduledDate,
+      notificationDetails: details,
+      androidScheduleMode: scheduleMode,
+      payload: payload,
+    );
+  }
+
+  @override
+  Future<void> showTestPrayerNotification({required bool isArabic}) async {
+    await initialize();
+
+    const androidDetails = AndroidNotificationDetails(
+      _prayerChannelId,
+      _prayerChannelName,
+      importance: Importance.max,
+      priority: Priority.high,
+      icon: '@mipmap/ic_launcher',
+    );
+    const darwinDetails = DarwinNotificationDetails();
+
+    const details = NotificationDetails(
+      android: androidDetails,
+      iOS: darwinDetails,
+    );
+
+    final title = isArabic
+        ? 'تجربة تنبيه الأذان: أذان الظهر بعد 5 دقائق'
+        : 'Test Prayer Reminder: Dhuhr in 5 minutes';
+    final body = isArabic
+        ? 'نظام تنبيهات مواقيت الصلاة في تطبيق طقس يعمل بنجاح'
+        : 'Taqs prayer reminder system is working successfully';
+
+    await _plugin.show(
+      id: 9999,
+      title: title,
+      body: body,
+      notificationDetails: details,
+      payload: '/prayer',
+    );
+  }
+
+  @override
+  Future<void> cancel(int id) async {
+    await _plugin.cancel(id: id);
   }
 
   @override

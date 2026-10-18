@@ -145,6 +145,11 @@ class PrayerSettingsController extends Notifier<PrayerSettingsState> {
     }
     state = state.copyWith(enabledPrayers: updated);
   }
+
+  /// Sets manual ±minute adjustments for prayers.
+  void setAdjustments(PrayerAdjustments adjustments) {
+    state = state.copyWith(adjustments: adjustments);
+  }
 }
 
 /// Global provider for [PrayerSettingsController].

@@ -7,7 +7,7 @@ void main() {
   group('SettingsScreen', () {
     testWidgets('renders appearance, language, notifications, and about navigation tiles',
         (tester) async {
-      tester.view.physicalSize = const Size(800, 1400);
+      tester.view.physicalSize = const Size(800, 2600);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -23,6 +23,8 @@ void main() {
       expect(find.text('المظهر والعرض'), findsOneWidget);
       expect(find.text('اللغة والمنطقة'), findsOneWidget);
       expect(find.text('الإشعارات'), findsOneWidget);
+      expect(find.text('مواقيت الصلاة والتنبيهات'), findsOneWidget);
+      expect(find.text('الأنماط الذكية'), findsOneWidget);
       expect(find.text('عن التطبيق'), findsOneWidget);
 
       // Check Theme Mode segmented button segments

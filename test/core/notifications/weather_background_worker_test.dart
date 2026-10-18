@@ -56,6 +56,31 @@ class _FakeNotificationService implements NotificationService {
   }) async {}
 
   @override
+  Future<bool> canScheduleExactAlarms() async => true;
+
+  @override
+  Future<bool> requestExactAlarmsPermission() async => true;
+
+  @override
+  Future<void> scheduleZonedNotification({
+    required int id,
+    required String title,
+    required String body,
+    required DateTime scheduledDate,
+    required String channelId,
+    required String channelName,
+    String? channelDescription,
+    String? payload,
+    bool exact = true,
+  }) async {}
+
+  @override
+  Future<void> showTestPrayerNotification({required bool isArabic}) async {}
+
+  @override
+  Future<void> cancel(int id) async {}
+
+  @override
   Future<void> cancelAll() async {}
 }
 

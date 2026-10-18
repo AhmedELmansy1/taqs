@@ -6,8 +6,12 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taqs/core/constants/app_constants.dart';
 import 'package:taqs/core/network/http_client.dart';
+import 'package:taqs/core/notifications/notification_service.dart';
+import 'package:taqs/core/notifications/prayer_notification_scheduler.dart';
 import 'package:taqs/core/notifications/weather_notification_builder.dart';
 import 'package:taqs/features/location/domain/entities/location_item.dart';
+import 'package:taqs/features/prayer/domain/entities/prayer_entities.dart';
+import 'package:taqs/features/prayer/presentation/providers/prayer_settings_controller.dart';
 import 'package:taqs/features/weather/data/data_sources/open_meteo_remote_data_source.dart';
 import 'package:taqs/features/weather/domain/entities/weather_entities.dart';
 import 'package:workmanager/workmanager.dart';
@@ -114,6 +118,44 @@ void callbackDispatcher() {
           iOS: darwinDetails,
         ),
       );
+
+      // Reschedule rolling 7-day prayer reminders as a background safety net
+      try {
+        final notifService = LocalNotificationServiceImpl(plugin: plugin);
+        final prayerScheduler =
+            PrayerNotificationScheduler(notificationService: notifService);
+        final masterRaw =
+            prefs.getString(AppConstants.prayerNotificationMasterKey);
+        final leadRaw = prefs.getString(AppConstants.prayerLeadTimeKey);
+        final methodRaw =
+            prefs.getString(AppConstants.prayerCalculationMethodKey);
+        final madhabRaw = prefs.getString(AppConstants.prayerMadhabKey);
+
+        final masterEnabled = masterRaw != 'false';
+        final leadMin = int.tryParse(leadRaw ?? '') ?? 5;
+        final method = CalculationMethodOption.values.firstWhere(
+          (m) => m.name == methodRaw,
+          orElse: () => CalculationMethodOption.egyptian,
+        );
+        final madhab = MadhabOption.values.firstWhere(
+          (m) => m.name == madhabRaw,
+          orElse: () => MadhabOption.shafi,
+        );
+
+        await prayerScheduler.scheduleRollingWeek(
+          latitude: latitude,
+          longitude: longitude,
+          cityNameAr: cityNameAr,
+          cityNameEn: cityNameEn,
+          settings: PrayerSettingsState(
+            calculationMethod: method,
+            madhab: madhab,
+            masterNotificationsEnabled: masterEnabled,
+            leadTimeMinutes: leadMin,
+          ),
+          isArabic: isArabic,
+        );
+      } on Object catch (_) {}
 
       return true;
     } on Object catch (_) {
