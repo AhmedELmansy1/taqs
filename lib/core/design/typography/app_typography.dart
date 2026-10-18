@@ -13,6 +13,25 @@ abstract final class AppTypography {
     'sans-serif',
   ];
 
+  /// Enforces monospace tabular figures so numbers don't jitter during updates.
+  static const List<FontFeature> tabularFigures = [
+    FontFeature.tabularFigures(),
+  ];
+
+  /// Hero temperature display style: huge, light weight, tabular digits.
+  static TextStyle heroTemperature({required bool isDark}) {
+    return TextStyle(
+      fontFamily: primaryFontFamily,
+      fontFamilyFallback: fontFallbacks,
+      fontSize: 88,
+      fontWeight: FontWeight.w200,
+      letterSpacing: -2,
+      fontFeatures: tabularFigures,
+      color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+      height: 1.05,
+    );
+  }
+
   /// Builds a cohesive [TextTheme] for light or dark mode.
   static TextTheme createTextTheme({required bool isDark}) {
     final primaryColor =
