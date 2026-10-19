@@ -294,4 +294,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dustMetric => 'Dust';
+
+  @override
+  String get currentlyBuildingTitle => 'Currently Building';
+
+  @override
+  String get currentlyBuildingSubtitle => 'Taqs — Weather & Prayer Times App';
+
+  @override
+  String get currentlyBuildingDesc =>
+      'An Arabic-first meteorological and astronomical prayer times mobile application built with Clean Architecture, offline-first caching, and modern Flutter craftsmanship.';
+
+  @override
+  String get inActiveDevelopment => 'In Active Development';
+
+  @override
+  String get letsWorkTogetherTitle => 'Let\'s Work Together';
+
+  @override
+  String get letsWorkTogetherSubtitle =>
+      'Open for Flutter development, mobile engineering, and AI projects.';
+
+  @override
+  String get contactMeAction => 'Get in Touch';
+
+  @override
+  String get downloadCv => 'Download CV (PDF)';
+
+  @override
+  String get cvDownloaded => 'CV opened successfully';
+
+  @override
+  String get cvDownloadError => 'Unable to open CV at this time';
 }

@@ -387,5 +387,45 @@
   "dustMetric": "الغبار",
   "@dustMetric": {
     "description": "تسمية نسبة الغبار المحمولة جوا"
+  },
+  "currentlyBuildingTitle": "يعمل حالياً على",
+  "@currentlyBuildingTitle": {
+    "description": "عنوان قسم يعمل حاليا على"
+  },
+  "currentlyBuildingSubtitle": "تطبيق طقس ومواقيت الصلاة (Taqs)",
+  "@currentlyBuildingSubtitle": {
+    "description": "العنوان الفرعي لتطبيق طقس"
+  },
+  "currentlyBuildingDesc": "تطبيق عربي متكامل لحساب المواقيت والطقس بدقة، مبني وفق هندسة برمجية نظيفة (Clean Architecture) وإدارة حالة معتمدة على Riverpod وتصميم بصري عصري فائق الجودة.",
+  "@currentlyBuildingDesc": {
+    "description": "وصف تطبيق طقس"
+  },
+  "inActiveDevelopment": "قيد التطوير المستمر",
+  "@inActiveDevelopment": {
+    "description": "شارة الحالة للمشروع النشط"
+  },
+  "letsWorkTogetherTitle": "لنعمل معاً",
+  "@letsWorkTogetherTitle": {
+    "description": "عنوان بطاقة دعوة العمل المشترك"
+  },
+  "letsWorkTogetherSubtitle": "متاح لفرص تطوير تطبيقات فلاتر، وهندسة البرمجيات، وتطبيقات الذكاء الاصطناعي.",
+  "@letsWorkTogetherSubtitle": {
+    "description": "الوصف الفرعي لبطاقة دعوة العمل"
+  },
+  "contactMeAction": "تواصل معي",
+  "@contactMeAction": {
+    "description": "زر الإجراء للتواصل"
+  },
+  "downloadCv": "تحميل السيرة الذاتية (PDF)",
+  "@downloadCv": {
+    "description": "نص زر تحميل السيرة الذاتية"
+  },
+  "cvDownloaded": "تم فتح السيرة الذاتية بنجاح",
+  "@cvDownloaded": {
+    "description": "رسالة نجاح فتح السيرة الذاتية"
+  },
+  "cvDownloadError": "تعذر فتح السيرة الذاتية حالياً",
+  "@cvDownloadError": {
+    "description": "رسالة تعذر فتح السيرة الذاتية"
   }
 }

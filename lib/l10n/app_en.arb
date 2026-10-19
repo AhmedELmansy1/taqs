@@ -387,5 +387,45 @@
   "dustMetric": "Dust",
   "@dustMetric": {
     "description": "Dust particulate metric label"
+  },
+  "currentlyBuildingTitle": "Currently Building",
+  "@currentlyBuildingTitle": {
+    "description": "Currently building section title"
+  },
+  "currentlyBuildingSubtitle": "Taqs — Weather & Prayer Times App",
+  "@currentlyBuildingSubtitle": {
+    "description": "Currently building app subtitle"
+  },
+  "currentlyBuildingDesc": "An Arabic-first meteorological and astronomical prayer times mobile application built with Clean Architecture, offline-first caching, and modern Flutter craftsmanship.",
+  "@currentlyBuildingDesc": {
+    "description": "Currently building description"
+  },
+  "inActiveDevelopment": "In Active Development",
+  "@inActiveDevelopment": {
+    "description": "Status badge for active project"
+  },
+  "letsWorkTogetherTitle": "Let's Work Together",
+  "@letsWorkTogetherTitle": {
+    "description": "CTA card title"
+  },
+  "letsWorkTogetherSubtitle": "Open for Flutter development, mobile engineering, and AI projects.",
+  "@letsWorkTogetherSubtitle": {
+    "description": "CTA card subtitle"
+  },
+  "contactMeAction": "Get in Touch",
+  "@contactMeAction": {
+    "description": "CTA button label"
+  },
+  "downloadCv": "Download CV (PDF)",
+  "@downloadCv": {
+    "description": "Download CV button text"
+  },
+  "cvDownloaded": "CV opened successfully",
+  "@cvDownloaded": {
+    "description": "CV opened success message"
+  },
+  "cvDownloadError": "Unable to open CV at this time",
+  "@cvDownloadError": {
+    "description": "CV open failure message"
   }
 }

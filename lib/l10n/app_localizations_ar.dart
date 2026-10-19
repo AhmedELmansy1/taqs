@@ -292,4 +292,36 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get dustMetric => 'الغبار';
+
+  @override
+  String get currentlyBuildingTitle => 'يعمل حالياً على';
+
+  @override
+  String get currentlyBuildingSubtitle => 'تطبيق طقس ومواقيت الصلاة (Taqs)';
+
+  @override
+  String get currentlyBuildingDesc =>
+      'تطبيق عربي متكامل لحساب المواقيت والطقس بدقة، مبني وفق هندسة برمجية نظيفة (Clean Architecture) وإدارة حالة معتمدة على Riverpod وتصميم بصري عصري فائق الجودة.';
+
+  @override
+  String get inActiveDevelopment => 'قيد التطوير المستمر';
+
+  @override
+  String get letsWorkTogetherTitle => 'لنعمل معاً';
+
+  @override
+  String get letsWorkTogetherSubtitle =>
+      'متاح لفرص تطوير تطبيقات فلاتر، وهندسة البرمجيات، وتطبيقات الذكاء الاصطناعي.';
+
+  @override
+  String get contactMeAction => 'تواصل معي';
+
+  @override
+  String get downloadCv => 'تحميل السيرة الذاتية (PDF)';
+
+  @override
+  String get cvDownloaded => 'تم فتح السيرة الذاتية بنجاح';
+
+  @override
+  String get cvDownloadError => 'تعذر فتح السيرة الذاتية حالياً';
 }

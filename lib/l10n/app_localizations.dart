@@ -619,6 +619,66 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الغبار'**
   String get dustMetric;
+
+  /// عنوان قسم يعمل حاليا على
+  ///
+  /// In ar, this message translates to:
+  /// **'يعمل حالياً على'**
+  String get currentlyBuildingTitle;
+
+  /// العنوان الفرعي لتطبيق طقس
+  ///
+  /// In ar, this message translates to:
+  /// **'تطبيق طقس ومواقيت الصلاة (Taqs)'**
+  String get currentlyBuildingSubtitle;
+
+  /// وصف تطبيق طقس
+  ///
+  /// In ar, this message translates to:
+  /// **'تطبيق عربي متكامل لحساب المواقيت والطقس بدقة، مبني وفق هندسة برمجية نظيفة (Clean Architecture) وإدارة حالة معتمدة على Riverpod وتصميم بصري عصري فائق الجودة.'**
+  String get currentlyBuildingDesc;
+
+  /// شارة الحالة للمشروع النشط
+  ///
+  /// In ar, this message translates to:
+  /// **'قيد التطوير المستمر'**
+  String get inActiveDevelopment;
+
+  /// عنوان بطاقة دعوة العمل المشترك
+  ///
+  /// In ar, this message translates to:
+  /// **'لنعمل معاً'**
+  String get letsWorkTogetherTitle;
+
+  /// الوصف الفرعي لبطاقة دعوة العمل
+  ///
+  /// In ar, this message translates to:
+  /// **'متاح لفرص تطوير تطبيقات فلاتر، وهندسة البرمجيات، وتطبيقات الذكاء الاصطناعي.'**
+  String get letsWorkTogetherSubtitle;
+
+  /// زر الإجراء للتواصل
+  ///
+  /// In ar, this message translates to:
+  /// **'تواصل معي'**
+  String get contactMeAction;
+
+  /// نص زر تحميل السيرة الذاتية
+  ///
+  /// In ar, this message translates to:
+  /// **'تحميل السيرة الذاتية (PDF)'**
+  String get downloadCv;
+
+  /// رسالة نجاح فتح السيرة الذاتية
+  ///
+  /// In ar, this message translates to:
+  /// **'تم فتح السيرة الذاتية بنجاح'**
+  String get cvDownloaded;
+
+  /// رسالة تعذر فتح السيرة الذاتية
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذر فتح السيرة الذاتية حالياً'**
+  String get cvDownloadError;
 }
 
 class _AppLocalizationsDelegate

@@ -9,11 +9,13 @@ class SectionHeader extends StatelessWidget {
     super.key,
     this.subtitle,
     this.action,
+    this.showGoldAccent = false,
   });
 
   final String title;
   final String? subtitle;
   final Widget? action;
+  final bool showGoldAccent;
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +32,36 @@ class SectionHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  title,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: isDark
-                        ? AppColors.darkTextPrimary
-                        : AppColors.lightTextPrimary,
-                  ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (showGoldAccent) ...[
+                      Container(
+                        width: 3.5,
+                        height: 16,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFFFDE68A), AppColors.metallicGold],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
+                    ],
+                    Flexible(
+                      child: Text(
+                        title,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.lightTextPrimary,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 if (subtitle != null) ...[
                   const SizedBox(height: AppSpacing.xxs),

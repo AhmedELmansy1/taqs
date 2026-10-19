@@ -4,15 +4,21 @@ import 'package:taqs/core/design/tokens/app_spacing.dart';
 import 'package:taqs/features/about/data/developer_profile.dart';
 import 'package:taqs/features/about/presentation/widgets/about_footer.dart';
 import 'package:taqs/features/about/presentation/widgets/contact_section.dart';
+import 'package:taqs/features/about/presentation/widgets/currently_building_card.dart';
 import 'package:taqs/features/about/presentation/widgets/developer_hero_header.dart';
 import 'package:taqs/features/about/presentation/widgets/education_card.dart';
 import 'package:taqs/features/about/presentation/widgets/projects_list.dart';
 import 'package:taqs/features/about/presentation/widgets/skills_chip_group.dart';
+import 'package:taqs/features/about/presentation/widgets/subtle_gradient_divider.dart';
 import 'package:taqs/features/about/presentation/widgets/tech_focus_card.dart';
 import 'package:taqs/features/about/presentation/widgets/why_taqs_card.dart';
+import 'package:taqs/features/about/presentation/widgets/work_together_card.dart';
 import 'package:taqs/l10n/app_localizations.dart';
 
 /// Screen displaying verified information about the developer (Ahmed Elmansy).
+///
+/// Features a parallax animated gold-ring hero header, active development spotlight,
+/// technical focus pillars, verified credentials, collaboration CTA, and contact details.
 class AboutDeveloperScreen extends StatelessWidget {
   const AboutDeveloperScreen({super.key});
 
@@ -36,55 +42,78 @@ class AboutDeveloperScreen extends StatelessWidget {
               vertical: AppSpacing.md,
             ),
             children: [
-              // Hero Profile
+              // Hero Profile with Parallax Animated Gold Ring & CV Button
               DeveloperHeroHeader(
                 profile: profile,
                 isArabic: isArabic,
               ),
-              const SizedBox(height: AppSpacing.lg),
+              const SizedBox(height: AppSpacing.md),
+
+              // Currently Building: Taqs Feature Spotlight
+              CurrentlyBuildingCard(isArabic: isArabic),
+              const SubtleGradientDivider(),
 
               // Tech Focus Tri-Pillar Card
               TechFocusCard(isArabic: isArabic),
-              const SizedBox(height: AppSpacing.xl),
+              const SubtleGradientDivider(),
 
               // Education Section
-              SectionHeader(title: l10n.educationSectionTitle),
+              SectionHeader(
+                title: l10n.educationSectionTitle,
+                showGoldAccent: true,
+              ),
               const SizedBox(height: AppSpacing.xs),
               EducationCard(
                 education: profile.education,
                 isArabic: isArabic,
               ),
-              const SizedBox(height: AppSpacing.xl),
+              const SubtleGradientDivider(),
 
               // Skills Section (Grouped by Category)
-              SectionHeader(title: l10n.skillsSectionTitle),
+              SectionHeader(
+                title: l10n.skillsSectionTitle,
+                showGoldAccent: true,
+              ),
               const SizedBox(height: AppSpacing.xs),
               SkillsChipGroup(
                 skills: profile.skills,
                 categories: profile.skillCategories,
                 isArabic: isArabic,
               ),
-              const SizedBox(height: AppSpacing.xl),
+              const SubtleGradientDivider(),
 
               // Projects Section (Verified Projects)
-              SectionHeader(title: l10n.projectsSectionTitle),
+              SectionHeader(
+                title: l10n.projectsSectionTitle,
+                showGoldAccent: true,
+              ),
               const SizedBox(height: AppSpacing.xs),
               ProjectsList(
                 projects: profile.projects,
                 projectItems: profile.projectItems,
                 isArabic: isArabic,
               ),
-              const SizedBox(height: AppSpacing.xl),
+              const SubtleGradientDivider(),
 
               // Why Taqs Architectural Note
               WhyTaqsCard(
                 whyTaqsText: isArabic ? profile.whyTaqsAr : profile.whyTaqsEn,
                 isArabic: isArabic,
               ),
-              const SizedBox(height: AppSpacing.xl),
+              const SubtleGradientDivider(),
+
+              // Collaboration CTA Card
+              WorkTogetherCard(
+                email: profile.contact.email,
+                isArabic: isArabic,
+              ),
+              const SizedBox(height: AppSpacing.lg),
 
               // Contact Section
-              SectionHeader(title: l10n.contactSectionTitle),
+              SectionHeader(
+                title: l10n.contactSectionTitle,
+                showGoldAccent: true,
+              ),
               const SizedBox(height: AppSpacing.xs),
               ContactSection(contact: profile.contact),
 
