@@ -22,6 +22,11 @@ abstract final class AppConstants {
   static const String prayerLeadTimeKey = 'taqs_prayer_lead_time_minutes';
   static const String prayerCalculationMethodKey = 'taqs_prayer_calculation_method';
   static const String prayerMadhabKey = 'taqs_prayer_madhab';
+  static const String takbeeratCardKey = 'taqs_takbeerat_card_enabled';
+  static const String takbeeratRichNotifKey = 'taqs_takbeerat_rich_notif_enabled';
+  static const String takbeeratSoundKey = 'taqs_takbeerat_sound_enabled';
+  static const String eidModeKey = 'taqs_eid_mode_enabled';
+  static const String hijriDayAdjustmentKey = 'taqs_hijri_day_adjustment';
 
   /// Default application location for Egypt weather foundation
   static const String defaultCityNameAr = 'القاهرة، مصر';

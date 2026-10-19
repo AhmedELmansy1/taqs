@@ -2,10 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taqs/core/notifications/notification_service.dart';
 import 'package:taqs/features/location/presentation/providers/location_controller.dart';
+import 'package:taqs/features/prayer/domain/services/eid_detector.dart';
 import 'package:taqs/features/prayer/domain/services/prayer_times_calculator.dart';
+import 'package:taqs/features/prayer/domain/services/takbeerat_card_image_service.dart';
 import 'package:taqs/features/prayer/presentation/providers/prayer_settings_controller.dart';
 
-/// Service responsible for scheduling 5-minute pre-prayer notifications over a 7-day rolling window.
+/// Service responsible for scheduling pre-prayer notifications over a 7-day rolling window,
+/// supporting rich takbeerat cards, versioned channels, and custom sound configuration.
 class PrayerNotificationScheduler {
   PrayerNotificationScheduler({
     required this.notificationService,
@@ -13,7 +16,9 @@ class PrayerNotificationScheduler {
 
   final NotificationService notificationService;
 
-  static const String prayerChannelId = 'taqs_prayer_reminders';
+  static const String defaultPrayerChannelId = 'taqs_prayer_reminders_default_v2';
+  static const String takbeeratPrayerChannelId = 'taqs_prayer_reminders_takbeerat_v1';
+  static const String prayerChannelId = defaultPrayerChannelId;
   static const String prayerChannelName = 'تنبيهات مواقيت الصلاة';
   static const int basePrayerNotificationId = 20000;
   static const int rollingWindowDays = 7;
@@ -38,6 +43,11 @@ class PrayerNotificationScheduler {
 
     final canExact = await notificationService.canScheduleExactAlarms();
     var scheduledCount = 0;
+
+    // Channel selection based on sound configuration (Android channels are immutable once created)
+    final targetChannelId = settings.takbeeratSoundEnabled
+        ? takbeeratPrayerChannelId
+        : defaultPrayerChannelId;
 
     for (var day = 0; day < rollingWindowDays; day++) {
       final targetDate = now.add(Duration(days: day));
@@ -86,18 +96,44 @@ class PrayerNotificationScheduler {
               ? 'مواقيت الصلاة في $cityNameAr'
               : 'Prayer times in $cityNameEn';
 
+          // Detect active Eid period for the reminder time
+          final eidPeriod = settings.eidModeEnabled
+              ? EidDetector.detectEidPeriod(
+                  date: reminderTime,
+                  manualAdjustmentDays: settings.hijriDayAdjustment,
+                )
+              : EidPeriod.none;
+
+          // Render rich takbeerat card image if enabled
+          String? cardImagePath;
+          if (settings.richNotificationCard) {
+            try {
+              cardImagePath = await TakbeeratCardImageService.generateCardImage(
+                prayerType: prayer.type,
+                isArabic: isArabic,
+                leadTimeMinutes: settings.leadTimeMinutes,
+                eidPeriod: eidPeriod,
+              );
+            } on Object catch (_) {
+              cardImagePath = null;
+            }
+          }
+
           await notificationService.scheduleZonedNotification(
             id: notifId,
             title: title,
             body: body,
             scheduledDate: reminderTime,
-            channelId: prayerChannelId,
+            channelId: targetChannelId,
             channelName: prayerChannelName,
             channelDescription: isArabic
                 ? 'تنبيهات مواقيت الصلاة قبل الأذان'
                 : 'Prayer reminders before adhan',
             payload: '/prayer',
             exact: canExact,
+            bigPicturePath: cardImagePath,
+            useCustomSound: settings.takbeeratSoundEnabled,
+            customSoundName: 'takbeerat',
           );
           scheduledCount++;
         } else {
@@ -108,7 +144,7 @@ class PrayerNotificationScheduler {
     }
 
     debugPrint(
-      'PrayerNotificationScheduler: scheduled $scheduledCount reminders (exact: $canExact)',
+      'PrayerNotificationScheduler: scheduled $scheduledCount reminders on $targetChannelId (exact: $canExact)',
     );
     return scheduledCount;
   }

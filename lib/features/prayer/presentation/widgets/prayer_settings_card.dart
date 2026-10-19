@@ -203,6 +203,160 @@ class _PrayerSettingsCardState extends ConsumerState<PrayerSettingsCard> {
 
             // Exact Alarm Permission Status
             _buildExactAlarmStatusBanner(isDark),
+
+            const Divider(height: AppSpacing.lg),
+
+            // --- Takbeerat Reminder Subsection ---
+            Row(
+              children: [
+                const Icon(
+                  Icons.auto_awesome,
+                  size: 16,
+                  color: AppColors.metallicGold,
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                Text(
+                  widget.isArabic ? 'تذكير التكبيرات' : 'Takbeerat Reminder',
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                ),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.xs),
+
+            // 1. Show Takbeerat Card
+            SwitchListTile.adaptive(
+              contentPadding: EdgeInsets.zero,
+              activeTrackColor: AppColors.metallicGold,
+              title: Text(
+                widget.isArabic ? 'عرض بطاقة التكبيرات' : 'Show Takbeerat Card',
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+              ),
+              subtitle: Text(
+                widget.isArabic
+                    ? 'إظهار بطاقة التكبيرات قبل الأذان وفي أيام العيد'
+                    : 'Show takbeerat card before adhan and during Eid',
+                style: TextStyle(
+                  fontSize: 11,
+                  color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                ),
+              ),
+              value: settings.showTakbeeratCard,
+              onChanged: (val) async {
+                unawaited(HapticFeedback.selectionClick());
+                await controller.setShowTakbeeratCard(enabled: val);
+              },
+            ),
+
+            // 2. Rich Notification with Card
+            SwitchListTile.adaptive(
+              contentPadding: EdgeInsets.zero,
+              activeTrackColor: AppColors.metallicGold,
+              title: Text(
+                widget.isArabic ? 'إشعار غني مع بطاقة مصورة' : 'Rich Notification with Card',
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+              ),
+              subtitle: Text(
+                widget.isArabic
+                    ? 'تضمين بطاقة التكبيرات المصورة داخل الإشعار'
+                    : 'Include rendered takbeerat card image in notification',
+                style: TextStyle(
+                  fontSize: 11,
+                  color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                ),
+              ),
+              value: settings.richNotificationCard,
+              onChanged: (val) async {
+                unawaited(HapticFeedback.selectionClick());
+                await controller.setRichNotificationCard(enabled: val);
+                await _rescheduleNotifications();
+              },
+            ),
+
+            // 3. Takbeerat Sound
+            SwitchListTile.adaptive(
+              contentPadding: EdgeInsets.zero,
+              activeTrackColor: AppColors.metallicGold,
+              title: Text(
+                widget.isArabic ? 'صوت التكبيرات' : 'Takbeerat Sound',
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+              ),
+              subtitle: Text(
+                widget.isArabic
+                    ? 'تشغيل ملف takbeerat.mp3 المخصص في مجلد raw'
+                    : 'Play custom takbeerat.mp3 from raw resources',
+                style: TextStyle(
+                  fontSize: 11,
+                  color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                ),
+              ),
+              value: settings.takbeeratSoundEnabled,
+              onChanged: (val) async {
+                unawaited(HapticFeedback.selectionClick());
+                await controller.setTakbeeratSoundEnabled(enabled: val);
+                await _rescheduleNotifications();
+              },
+            ),
+
+            // 4. Eid Mode Auto-Takbeerat
+            SwitchListTile.adaptive(
+              contentPadding: EdgeInsets.zero,
+              activeTrackColor: AppColors.metallicGold,
+              title: Text(
+                widget.isArabic ? 'وضع تكبيرات العيد' : 'Eid Takbeerat Mode',
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+              ),
+              subtitle: Text(
+                widget.isArabic
+                    ? 'تفعيل تكبيرات عيد الفطر وعيد الأضحى تلقائياً حسب التقويم الهجري'
+                    : 'Auto-enable Eid al-Fitr & Eid al-Adha takbeerat by Hijri date',
+                style: TextStyle(
+                  fontSize: 11,
+                  color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                ),
+              ),
+              value: settings.eidModeEnabled,
+              onChanged: (val) async {
+                unawaited(HapticFeedback.selectionClick());
+                await controller.setEidModeEnabled(enabled: val);
+                await _rescheduleNotifications();
+              },
+            ),
+
+            if (settings.eidModeEnabled) ...[
+              const SizedBox(height: AppSpacing.xs),
+              Text(
+                widget.isArabic ? 'تعديل التاريخ الهجري (±1 يوم)' : 'Hijri Date Adjustment (±1 day)',
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: AppSpacing.xs),
+              Wrap(
+                spacing: AppSpacing.sm,
+                children: [-1, 0, 1].map((adj) {
+                  final isSelected = settings.hijriDayAdjustment == adj;
+                  final label = adj > 0 ? '+$adj' : '$adj';
+                  return ChoiceChip(
+                    label: Text(widget.isArabic ? '$label يوم' : '$label day'),
+                    selected: isSelected,
+                    selectedColor: AppColors.metallicGold.withValues(alpha: 0.25),
+                    checkmarkColor: AppColors.metallicGold,
+                    labelStyle: TextStyle(
+                      fontSize: 11,
+                      fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                      color: isSelected
+                          ? AppColors.metallicGold
+                          : (isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary),
+                    ),
+                    onSelected: (selected) async {
+                      if (selected) {
+                        unawaited(HapticFeedback.selectionClick());
+                        await controller.setHijriDayAdjustment(adj);
+                        await _rescheduleNotifications();
+                      }
+                    },
+                  );
+                }).toList(),
+              ),
+            ],
           ],
 
           const Divider(height: AppSpacing.xl),

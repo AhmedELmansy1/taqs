@@ -69,8 +69,9 @@ Future<void> _renderCandidate({
 
 void _drawCandidateA(Canvas canvas, Size size) {
   final s = size.width / 512.0;
-  canvas.save();
-  canvas.scale(s, s);
+  canvas
+    ..save()
+    ..scale(s, s);
 
   // Background
   final bg = Paint()..color = const Color(0xFF0B132B);
@@ -106,18 +107,19 @@ void _drawCandidateA(Canvas canvas, Size size) {
 
   // Horizon
   final hPaint = Paint()..color = const Color(0xFF38BDF8);
-  canvas.drawRRect(
-    RRect.fromRectAndRadius(const Rect.fromLTWH(112, 336, 288, 22), const Radius.circular(11)),
-    hPaint,
-  );
-
-  canvas.restore();
+  canvas
+    ..drawRRect(
+      RRect.fromRectAndRadius(const Rect.fromLTWH(112, 336, 288, 22), const Radius.circular(11)),
+      hPaint,
+    )
+    ..restore();
 }
 
 void _drawCandidateB(Canvas canvas, Size size) {
   final s = size.width / 512.0;
-  canvas.save();
-  canvas.scale(s, s);
+  canvas
+    ..save()
+    ..scale(s, s);
 
   // Background
   final bg = Paint()..color = const Color(0xFF0B132B);
@@ -203,15 +205,16 @@ void _drawCandidateB(Canvas canvas, Size size) {
   final accent = Path()
     ..moveTo(134, 350)
     ..cubicTo(220, 344, 286, 304, 378, 320);
-  canvas.drawPath(accent, goldStroke);
-
-  canvas.restore();
+  canvas
+    ..drawPath(accent, goldStroke)
+    ..restore();
 }
 
 void _drawCandidateC(Canvas canvas, Size size) {
   final s = size.width / 512.0;
-  canvas.save();
-  canvas.scale(s, s);
+  canvas
+    ..save()
+    ..scale(s, s);
 
   // Background
   final bg = Paint()..color = const Color(0xFF0B132B);
@@ -257,10 +260,8 @@ void _drawCandidateC(Canvas canvas, Size size) {
     ..cubicTo(132, 214, 144, 214, 168, 196)
     ..cubicTo(212, 162, 250, 108, 256, 96)
     ..close();
-  canvas.drawPath(arch, gold);
-
-  // Sun
-  canvas.drawCircle(const Offset(256, 276), 64, sky);
-
-  canvas.restore();
+  canvas
+    ..drawPath(arch, gold)
+    ..drawCircle(const Offset(256, 276), 64, sky)
+    ..restore();
 }

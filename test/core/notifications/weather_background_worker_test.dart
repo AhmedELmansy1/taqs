@@ -72,6 +72,9 @@ class _FakeNotificationService implements NotificationService {
     String? channelDescription,
     String? payload,
     bool exact = true,
+    String? bigPicturePath,
+    bool useCustomSound = false,
+    String? customSoundName,
   }) async {}
 
   @override

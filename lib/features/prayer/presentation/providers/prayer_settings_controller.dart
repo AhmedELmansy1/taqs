@@ -21,6 +21,11 @@ class PrayerSettingsState {
       PrayerType.maghrib,
       PrayerType.isha,
     },
+    this.showTakbeeratCard = true,
+    this.richNotificationCard = true,
+    this.takbeeratSoundEnabled = false,
+    this.eidModeEnabled = true,
+    this.hijriDayAdjustment = 0,
   });
 
   final CalculationMethodOption calculationMethod;
@@ -30,6 +35,21 @@ class PrayerSettingsState {
   final int leadTimeMinutes;
   final Set<PrayerType> enabledPrayers;
 
+  /// Whether to display the pre-adhan/Eid takbeerat card in the prayer section.
+  final bool showTakbeeratCard;
+
+  /// Whether to schedule rich notifications containing the takbeerat card image.
+  final bool richNotificationCard;
+
+  /// Whether to play takbeerat sound on notification (requires android/app/src/main/res/raw/takbeerat.mp3).
+  final bool takbeeratSoundEnabled;
+
+  /// Whether to auto-enable Eid takbeerat during Eid al-Fitr and Eid al-Adha.
+  final bool eidModeEnabled;
+
+  /// Manual ±1 day adjustment to align calculated Hijri dates with official announcements.
+  final int hijriDayAdjustment;
+
   PrayerSettingsState copyWith({
     CalculationMethodOption? calculationMethod,
     MadhabOption? madhab,
@@ -37,6 +57,11 @@ class PrayerSettingsState {
     bool? masterNotificationsEnabled,
     int? leadTimeMinutes,
     Set<PrayerType>? enabledPrayers,
+    bool? showTakbeeratCard,
+    bool? richNotificationCard,
+    bool? takbeeratSoundEnabled,
+    bool? eidModeEnabled,
+    int? hijriDayAdjustment,
   }) {
     return PrayerSettingsState(
       calculationMethod: calculationMethod ?? this.calculationMethod,
@@ -46,6 +71,12 @@ class PrayerSettingsState {
           masterNotificationsEnabled ?? this.masterNotificationsEnabled,
       leadTimeMinutes: leadTimeMinutes ?? this.leadTimeMinutes,
       enabledPrayers: enabledPrayers ?? this.enabledPrayers,
+      showTakbeeratCard: showTakbeeratCard ?? this.showTakbeeratCard,
+      richNotificationCard: richNotificationCard ?? this.richNotificationCard,
+      takbeeratSoundEnabled:
+          takbeeratSoundEnabled ?? this.takbeeratSoundEnabled,
+      eidModeEnabled: eidModeEnabled ?? this.eidModeEnabled,
+      hijriDayAdjustment: hijriDayAdjustment ?? this.hijriDayAdjustment,
     );
   }
 }
@@ -69,6 +100,16 @@ class PrayerSettingsController extends Notifier<PrayerSettingsState> {
         await _storage.getString(AppConstants.prayerNotificationMasterKey);
     final leadRaw =
         await _storage.getString(AppConstants.prayerLeadTimeKey);
+    final takbeeratCardRaw =
+        await _storage.getString(AppConstants.takbeeratCardKey);
+    final takbeeratRichNotifRaw =
+        await _storage.getString(AppConstants.takbeeratRichNotifKey);
+    final takbeeratSoundRaw =
+        await _storage.getString(AppConstants.takbeeratSoundKey);
+    final eidModeRaw =
+        await _storage.getString(AppConstants.eidModeKey);
+    final hijriAdjRaw =
+        await _storage.getString(AppConstants.hijriDayAdjustmentKey);
 
     var method = CalculationMethodOption.egyptian;
     if (methodRaw != null) {
@@ -88,6 +129,11 @@ class PrayerSettingsController extends Notifier<PrayerSettingsState> {
 
     final masterEnabled = masterRaw != 'false';
     final leadMinutes = int.tryParse(leadRaw ?? '') ?? 5;
+    final showCard = takbeeratCardRaw != 'false';
+    final richNotif = takbeeratRichNotifRaw != 'false';
+    final soundEnabled = takbeeratSoundRaw == 'true';
+    final eidMode = eidModeRaw != 'false';
+    final hijriAdj = int.tryParse(hijriAdjRaw ?? '') ?? 0;
 
     if (ref.mounted) {
       state = state.copyWith(
@@ -95,6 +141,11 @@ class PrayerSettingsController extends Notifier<PrayerSettingsState> {
         madhab: madhab,
         masterNotificationsEnabled: masterEnabled,
         leadTimeMinutes: leadMinutes,
+        showTakbeeratCard: showCard,
+        richNotificationCard: richNotif,
+        takbeeratSoundEnabled: soundEnabled,
+        eidModeEnabled: eidMode,
+        hijriDayAdjustment: hijriAdj,
       );
     }
   }
@@ -132,6 +183,51 @@ class PrayerSettingsController extends Notifier<PrayerSettingsState> {
     await _storage.setString(
       AppConstants.prayerLeadTimeKey,
       minutes.toString(),
+    );
+  }
+
+  /// Toggles whether takbeerat card appears in the prayer section.
+  Future<void> setShowTakbeeratCard({required bool enabled}) async {
+    state = state.copyWith(showTakbeeratCard: enabled);
+    await _storage.setString(
+      AppConstants.takbeeratCardKey,
+      enabled.toString(),
+    );
+  }
+
+  /// Toggles rich notifications with pre-rendered card image.
+  Future<void> setRichNotificationCard({required bool enabled}) async {
+    state = state.copyWith(richNotificationCard: enabled);
+    await _storage.setString(
+      AppConstants.takbeeratRichNotifKey,
+      enabled.toString(),
+    );
+  }
+
+  /// Toggles custom takbeerat notification sound.
+  Future<void> setTakbeeratSoundEnabled({required bool enabled}) async {
+    state = state.copyWith(takbeeratSoundEnabled: enabled);
+    await _storage.setString(
+      AppConstants.takbeeratSoundKey,
+      enabled.toString(),
+    );
+  }
+
+  /// Toggles Eid mode auto-takbeerat display.
+  Future<void> setEidModeEnabled({required bool enabled}) async {
+    state = state.copyWith(eidModeEnabled: enabled);
+    await _storage.setString(
+      AppConstants.eidModeKey,
+      enabled.toString(),
+    );
+  }
+
+  /// Sets manual ±1 day adjustment for Hijri calendar calculations.
+  Future<void> setHijriDayAdjustment(int adjustment) async {
+    state = state.copyWith(hijriDayAdjustment: adjustment);
+    await _storage.setString(
+      AppConstants.hijriDayAdjustmentKey,
+      adjustment.toString(),
     );
   }
 

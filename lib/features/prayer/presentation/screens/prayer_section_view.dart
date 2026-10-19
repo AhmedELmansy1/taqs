@@ -6,9 +6,12 @@ import 'package:taqs/core/design/tokens/app_radius.dart';
 import 'package:taqs/core/design/tokens/app_spacing.dart';
 import 'package:taqs/core/navigation/app_routes.dart';
 import 'package:taqs/features/location/presentation/providers/location_controller.dart';
+import 'package:taqs/features/prayer/domain/services/eid_detector.dart';
+import 'package:taqs/features/prayer/presentation/providers/prayer_settings_controller.dart';
 import 'package:taqs/features/prayer/presentation/providers/prayer_view_model.dart';
 import 'package:taqs/features/prayer/presentation/widgets/prayer_countdown_arc.dart';
 import 'package:taqs/features/prayer/presentation/widgets/prayer_item_tile.dart';
+import 'package:taqs/features/prayer/presentation/widgets/takbeerat_card.dart';
 
 /// Complete presentation view for the Prayer Times section.
 class PrayerSectionView extends ConsumerWidget {
@@ -25,6 +28,7 @@ class PrayerSectionView extends ConsumerWidget {
     final isDark = theme.brightness == Brightness.dark;
     final bundle = ref.watch(prayerViewModelProvider);
     final locationState = ref.watch(locationControllerProvider);
+    final settings = ref.watch(prayerSettingsControllerProvider);
 
     final loc = locationState.selectedLocation;
     final cityName = isArabic
@@ -34,6 +38,23 @@ class PrayerSectionView extends ConsumerWidget {
     final hijriDate = isArabic ? bundle.hijriFormattedAr : bundle.hijriFormattedEn;
     final gregorianDate =
         isArabic ? bundle.gregorianFormattedAr : bundle.gregorianFormattedEn;
+
+    // Detect Eid mode using settings and manual adjustment offset
+    final eidPeriod = settings.eidModeEnabled
+        ? EidDetector.detectEidPeriod(
+            date: DateTime.now(),
+            manualAdjustmentDays: settings.hijriDayAdjustment,
+          )
+        : EidPeriod.none;
+
+    final remainingSeconds = bundle.timeToNextPrayer.inSeconds;
+    final leadSeconds = settings.leadTimeMinutes * 60;
+    final isWithinLeadTime =
+        remainingSeconds <= leadSeconds && remainingSeconds >= 0;
+    final showTakbeerat =
+        settings.showTakbeeratCard && (isWithinLeadTime || eidPeriod.isEid);
+
+    final reduceMotion = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
 
     return RefreshIndicator(
       color: AppColors.metallicGold,
@@ -112,17 +133,83 @@ class PrayerSectionView extends ConsumerWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
+                  if (eidPeriod.isEid) ...[
+                    const SizedBox(height: AppSpacing.sm),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.md,
+                        vertical: AppSpacing.xs,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.metallicGold.withValues(alpha: 0.16),
+                        borderRadius: AppRadius.borderMd,
+                        border: Border.all(
+                          color: AppColors.metallicGold.withValues(alpha: 0.4),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.auto_awesome,
+                            size: 15,
+                            color: AppColors.metallicGold,
+                          ),
+                          const SizedBox(width: AppSpacing.xs),
+                          Text(
+                            EidDetector.getEidLabel(
+                                  eidPeriod,
+                                  isArabic: isArabic,
+                                ) ??
+                                '',
+                            style: theme.textTheme.labelMedium?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: isDark
+                                  ? const Color(0xFFFDE68A)
+                                  : const Color(0xFFB8860B),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ],
               ),
               const SizedBox(height: AppSpacing.xl),
 
-              // Centerpiece Countdown Arc
+              // Centerpiece Countdown Arc / Takbeerat Card
               Center(
-                child: PrayerCountdownArc(
-                  nextPrayer: bundle.nextPrayer,
-                  previousPrayer: bundle.previousPrayer,
-                  timeToNext: bundle.timeToNextPrayer,
-                  isArabic: isArabic,
+                child: AnimatedSwitcher(
+                  duration: reduceMotion
+                      ? Duration.zero
+                      : const Duration(milliseconds: 400),
+                  child: showTakbeerat
+                      ? Column(
+                          key: const ValueKey('takbeerat_augmented_view'),
+                          children: [
+                            TakbeeratCard(
+                              isArabic: isArabic,
+                              nextPrayer: bundle.nextPrayer,
+                              remainingMinutes:
+                                  bundle.timeToNextPrayer.inMinutes,
+                              eidPeriod: eidPeriod,
+                            ),
+                            const SizedBox(height: AppSpacing.lg),
+                            PrayerCountdownArc(
+                              nextPrayer: bundle.nextPrayer,
+                              previousPrayer: bundle.previousPrayer,
+                              timeToNext: bundle.timeToNextPrayer,
+                              isArabic: isArabic,
+                            ),
+                          ],
+                        )
+                      : PrayerCountdownArc(
+                          key: const ValueKey('prayer_countdown_arc_standard'),
+                          nextPrayer: bundle.nextPrayer,
+                          previousPrayer: bundle.previousPrayer,
+                          timeToNext: bundle.timeToNextPrayer,
+                          isArabic: isArabic,
+                        ),
                 ),
               ),
               const SizedBox(height: AppSpacing.xl),

@@ -11,6 +11,9 @@ class ScheduledNotificationEntry {
     required this.channelId,
     required this.exact,
     this.payload,
+    this.bigPicturePath,
+    this.useCustomSound = false,
+    this.customSoundName,
   });
 
   final int id;
@@ -20,6 +23,9 @@ class ScheduledNotificationEntry {
   final String channelId;
   final bool exact;
   final String? payload;
+  final String? bigPicturePath;
+  final bool useCustomSound;
+  final String? customSoundName;
 }
 
 /// In-memory test fake for [NotificationService].
@@ -80,6 +86,9 @@ class FakeNotificationService implements NotificationService {
     String? channelDescription,
     String? payload,
     bool exact = true,
+    String? bigPicturePath,
+    bool useCustomSound = false,
+    String? customSoundName,
   }) async {
     scheduledNotifications.removeWhere((e) => e.id == id);
     scheduledNotifications.add(
@@ -91,6 +100,9 @@ class FakeNotificationService implements NotificationService {
         channelId: channelId,
         exact: exact,
         payload: payload,
+        bigPicturePath: bigPicturePath,
+        useCustomSound: useCustomSound,
+        customSoundName: customSoundName,
       ),
     );
   }

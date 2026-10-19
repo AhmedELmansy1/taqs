@@ -120,4 +120,57 @@ void main() {
       expect(notif.title.contains('المغرب'), isFalse);
     }
   });
+
+  test('Versions notification channel and activates sound when takbeerat sound is enabled', () async {
+    final fixedNow = DateTime(2026, 10, 23, 4);
+
+    const settings = PrayerSettingsState(
+      takbeeratSoundEnabled: true,
+    );
+
+    await scheduler.scheduleRollingWeek(
+      latitude: 30.0444,
+      longitude: 31.2357,
+      cityNameAr: 'القاهرة',
+      cityNameEn: 'Cairo',
+      settings: settings,
+      isArabic: true,
+      startDate: fixedNow,
+    );
+
+    expect(fakeNotifications.scheduledNotifications, isNotEmpty);
+    final first = fakeNotifications.scheduledNotifications.first;
+
+    // Verify channel ID is versioned to the takbeerat sound channel
+    expect(
+      first.channelId,
+      PrayerNotificationScheduler.takbeeratPrayerChannelId,
+    );
+    expect(first.useCustomSound, isTrue);
+    expect(first.customSoundName, 'takbeerat');
+  });
+
+  test('Uses default channel when takbeerat sound is disabled', () async {
+    final fixedNow = DateTime(2026, 10, 23, 4);
+
+    const settings = PrayerSettingsState();
+
+    await scheduler.scheduleRollingWeek(
+      latitude: 30.0444,
+      longitude: 31.2357,
+      cityNameAr: 'القاهرة',
+      cityNameEn: 'Cairo',
+      settings: settings,
+      isArabic: true,
+      startDate: fixedNow,
+    );
+
+    final first = fakeNotifications.scheduledNotifications.first;
+
+    expect(
+      first.channelId,
+      PrayerNotificationScheduler.defaultPrayerChannelId,
+    );
+    expect(first.useCustomSound, isFalse);
+  });
 }

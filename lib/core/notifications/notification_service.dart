@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taqs/features/alerts/domain/entities/weather_alert.dart';
@@ -29,6 +30,9 @@ abstract interface class NotificationService {
     String? channelDescription,
     String? payload,
     bool exact = true,
+    String? bigPicturePath,
+    bool useCustomSound = false,
+    String? customSoundName,
   });
   Future<void> showTestPrayerNotification({required bool isArabic});
   Future<void> cancel(int id);
@@ -51,7 +55,7 @@ class LocalNotificationServiceImpl implements NotificationService {
   static const String _alertChannelName = 'تحذيرات الطقس الحرج';
   static const String _briefingChannelId = 'taqs_daily_briefing';
   static const String _briefingChannelName = 'الملخص اليومي للطقس';
-  static const String _prayerChannelId = 'taqs_prayer_reminders';
+  static const String _prayerChannelId = 'taqs_prayer_reminders_default_v2';
   static const String _prayerChannelName = 'تنبيهات مواقيت الصلاة';
 
   @override
@@ -61,7 +65,7 @@ class LocalNotificationServiceImpl implements NotificationService {
     tz.initializeTimeZones();
 
     const androidSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@drawable/ic_notification');
     const darwinSettings = DarwinInitializationSettings();
 
     const settings = InitializationSettings(
@@ -102,7 +106,7 @@ class LocalNotificationServiceImpl implements NotificationService {
       return granted ?? false;
     }
 
-    return true;
+    return false;
   }
 
   @override
@@ -110,8 +114,8 @@ class LocalNotificationServiceImpl implements NotificationService {
     final android = _plugin.resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>();
     if (android != null) {
-      final can = await android.canScheduleExactNotifications();
-      return can ?? true;
+      final canExact = await android.canScheduleExactNotifications();
+      return canExact ?? false;
     }
     return true;
   }
@@ -139,7 +143,7 @@ class LocalNotificationServiceImpl implements NotificationService {
       _alertChannelName,
       importance: Importance.max,
       priority: Priority.high,
-      icon: '@mipmap/ic_launcher',
+      icon: '@drawable/ic_notification',
     );
     const darwinDetails = DarwinNotificationDetails();
 
@@ -169,7 +173,7 @@ class LocalNotificationServiceImpl implements NotificationService {
     const androidDetails = AndroidNotificationDetails(
       _briefingChannelId,
       _briefingChannelName,
-      icon: '@mipmap/ic_launcher',
+      icon: '@drawable/ic_notification',
     );
     const darwinDetails = DarwinNotificationDetails();
 
@@ -205,6 +209,9 @@ class LocalNotificationServiceImpl implements NotificationService {
     String? channelDescription,
     String? payload,
     bool exact = true,
+    String? bigPicturePath,
+    bool useCustomSound = false,
+    String? customSoundName,
   }) async {
     await initialize();
 
@@ -213,13 +220,31 @@ class LocalNotificationServiceImpl implements NotificationService {
         ? AndroidScheduleMode.exactAllowWhileIdle
         : AndroidScheduleMode.inexactAllowWhileIdle;
 
+    final StyleInformation styleInformation;
+    if (bigPicturePath != null && File(bigPicturePath).existsSync()) {
+      styleInformation = BigPictureStyleInformation(
+        FilePathAndroidBitmap(bigPicturePath),
+        contentTitle: title,
+        summaryText: body,
+      );
+    } else {
+      styleInformation = BigTextStyleInformation(
+        body,
+        contentTitle: title,
+      );
+    }
+
     final androidDetails = AndroidNotificationDetails(
       channelId,
       channelName,
       channelDescription: channelDescription,
       importance: Importance.max,
       priority: Priority.high,
-      icon: '@mipmap/ic_launcher',
+      icon: '@drawable/ic_notification',
+      styleInformation: styleInformation,
+      sound: useCustomSound && customSoundName != null
+          ? RawResourceAndroidNotificationSound(customSoundName)
+          : null,
     );
     const darwinDetails = DarwinNotificationDetails();
 
@@ -248,7 +273,7 @@ class LocalNotificationServiceImpl implements NotificationService {
       _prayerChannelName,
       importance: Importance.max,
       priority: Priority.high,
-      icon: '@mipmap/ic_launcher',
+      icon: '@drawable/ic_notification',
     );
     const darwinDetails = DarwinNotificationDetails();
 
@@ -258,18 +283,17 @@ class LocalNotificationServiceImpl implements NotificationService {
     );
 
     final title = isArabic
-        ? 'تجربة تنبيه الأذان: أذان الظهر بعد 5 دقائق'
-        : 'Test Prayer Reminder: Dhuhr in 5 minutes';
+        ? 'تذكير تجريبي بمواقيت الصلاة'
+        : 'Prayer Time Reminder Test';
     final body = isArabic
-        ? 'نظام تنبيهات مواقيت الصلاة في تطبيق طقس يعمل بنجاح'
-        : 'Taqs prayer reminder system is working successfully';
+        ? 'تم التحقق من نظام الإشعارات وجدول التنبيهات بنجاح.'
+        : 'Notification system and reminder schedule verified successfully.';
 
     await _plugin.show(
       id: 9999,
       title: title,
       body: body,
       notificationDetails: details,
-      payload: '/prayer',
     );
   }
 
@@ -284,7 +308,7 @@ class LocalNotificationServiceImpl implements NotificationService {
   }
 }
 
-/// Provider for [NotificationService].
+/// Global provider for [NotificationService].
 final notificationServiceProvider = Provider<NotificationService>((ref) {
   return LocalNotificationServiceImpl();
 });
