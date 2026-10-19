@@ -29,8 +29,12 @@
 - **Dual Calendar**: Arabic and English Hijri and Gregorian dates.
   > **Note & Disclaimer**: *Calculated prayer times and Hijri dates are based on astronomical calculations and may vary by ±1–2 minutes or ±1 day compared to official local sighting and mosque timetables. Users are encouraged to verify against their local mosque.*
 
-### 3. 5-Minute Pre-Prayer Notifications
+### 3. Pre-Adhan Takbeerat & Reminders
 - **Lead Time Reminders**: Automatically alerts users before prayer calls (default: **5 minutes before**, customizable to 0, 5, 10, or 15 minutes).
+- **Takbeerat Reminder Card (`TakbeeratCard`)**: In the final minutes before adhan (or all day during Eid), displays an atmospheric navy-and-gold card featuring calligraphic Arabic takbeerat and respectful English translations.
+- **Rich Notification with Offscreen Canvas (`TakbeeratCardImageService`)**: When enabled, generates a custom high-DPI 800×400 BigPicture notification image rendered offscreen with golden calligraphy and crescent accents, falling back smoothly to BigText.
+- **Eid Takbeerat Mode**: Automatically detects **Eid al-Fitr** (1–3 Shawwal) and **Eid al-Adha / Tashreeq** (9–13 Dhu al-Hijjah) via offline astronomical Hijri calculations, with manual ±1 day adjustment in Settings to match local moonsighting declarations.
+- **Notification Channel Versioning**: Android 8.0+ sound changes require distinct channels. Taqs automatically manages versioned channels (`taqs_prayer_reminders_default_v2` for system sound and `taqs_prayer_reminders_takbeerat_v1` for custom takbeerat audio).
 - **Rolling 7-Day Window**: Pre-schedules a rolling week of notifications using local notification alarms.
 - **Automated Rescheduling Lifecycle**:
   - Automatically regenerates on app launch, location changes, calculation settings edits, device reboot (`BOOT_COMPLETED`), and from the 12-hour background worker safety net.
@@ -38,9 +42,7 @@
   - Complies with Android 12–14 Google Play Store exact alarm restrictions.
   - Dynamically checks `canScheduleExactNotifications()` at runtime.
   - If denied, gracefully falls back to inexact scheduling with an honest transparent status note and one-tap deep link to Android system settings.
-- **Notification Channel**: High-importance dedicated Android channel: *"تنبيهات مواقيت الصلاة (Prayer reminders)"*.
 - **Battery Optimization Transparency**: Standard Android Doze mode and manufacturer power savers (Xiaomi, Samsung, Huawei) may defer non-whitelisted alarms. In-app settings explain how to whitelist the app for reliable delivery.
-- **Custom Adhan Audio**: Uses system notification sounds by default (no copyrighted audio bundled). Users can optionally provide their own licensed adhan audio by placing an MP3 at `android/app/src/main/res/raw/adhan.mp3`.
 
 ### 4. Coastal Marine Conditions
 - **Open-Meteo Marine API**: Automatically queries significant wave height, wave period, wave direction, and wind waves for coastal coordinates.
@@ -101,21 +103,39 @@ Everything in Taqs runs strictly on-device without telemetry, user tracking, or 
 
 ---
 
-## 🔊 How to Add a Custom Adhan Audio
+## 🎨 Brand Identity & Vector System
 
-By default, Taqs uses the clean system notification sound to avoid copyright issues and respect user device audio preferences. To enable a custom Adhan audio:
+Taqs features a unified, bespoke mark that synthesizes both meteorological and astronomical prayer dimensions:
+- **Core Mark (Candidate B)**: The Arabic letter **"ط"** fluidly morphed with a rising solar horizon arc, cradling a luminous metallic gold crescent accent at its zenith.
+- **Color Palette**: Deep midnight navy (`#0B132B`), electric sky cyan (`#38BDF8`), solar gold (`#F59E0B`, `#FDE68A`), and pure white typography.
+- **Regenerable Asset Pipeline**:
+  - Source vector: `assets/branding/taqs_logo.svg`
+  - Monochrome themed icon: `assets/branding/taqs_logo_monochrome.svg`
+  - Horizontal brand lockup: `assets/branding/taqs_logo_lockup.svg`
+  - Regeneration tools: `dart run tool/generate_brand_assets.dart` and `dart run tool/render_icons.dart`
+  - Android 13+ Themed Icons, adaptive foreground/background layers, and Android 12+ native splash screens are fully configured and automated.
 
-1. Obtain a licensed or open-license audio recording in MP3 or WAV format.
-2. Rename the file to `adhan.mp3`.
-3. Place it in:
-   ```
-   android/app/src/main/res/raw/adhan.mp3
-   ```
-4. Rebuild the app:
+---
+
+## 🔊 How to Add Custom Audio (Adhan & Takbeerat)
+
+By default, Taqs uses system notification tones to avoid copyright infringement and respect silent device profiles. To provide your own licensed audio:
+
+1. **Custom Adhan Audio**:
+   - Place an MP3 or WAV file at:
+     ```
+     android/app/src/main/res/raw/adhan.mp3
+     ```
+2. **Custom Pre-Adhan Takbeerat Audio**:
+   - Place an MP3 or WAV file at:
+     ```
+     android/app/src/main/res/raw/takbeerat.mp3
+     ```
+3. Rebuild the app:
    ```bash
    flutter build apk --debug
    ```
-If the file is absent, Taqs automatically and silently defaults to the standard system notification tone.
+If the audio files are absent, Taqs silently and safely defaults to the standard system notification tone on the default channel.
 
 ---
 
